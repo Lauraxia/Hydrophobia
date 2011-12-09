@@ -3,8 +3,8 @@
 //#include "scene.h"
 //#include "scene_constructor.h"
 //#include "camera.h"
-//#include "physics.h"
-//#include "control.h"
+#include "physics.h"
+#include "control.h"
 
 // Debug Stuff
 //#define _CRTDBG_MAP_ALLOC
@@ -22,7 +22,7 @@
 float rotAng[] = {0,0,0};
 float angle[] = {0,0,0};
 
-const char* path = "airplane.3DS";
+const std::string path = "bench.obj";
 mesh *m1;
 GLuint scene_list = 0;
 // ------------------------------------------------------------
@@ -96,7 +96,7 @@ void initialize()
 	
 }
 
-
+float position[] = {10,10,10};
 void display()
 {
 	//clear the screen
@@ -107,9 +107,7 @@ void display()
 
 	glPushMatrix();
 	
-	glRotatef(rotAng[0],1,0,0);
-	glRotatef(rotAng[1],0,1,0);
-	glRotatef(rotAng[2],0,0,1);
+	
 
 	//recursive_render(m1->scene,m1->scene->mRootNode);
 	//------------------------------------------------------
@@ -117,7 +115,7 @@ void display()
 
 
 	//glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	//glLoadIdentity();
 	//gluLookAt(0.f,0.f,3.f,0.f,0.f,-5.f,0.f,1.f,0.f);
 
 	// rotate it around the y axis
@@ -144,8 +142,12 @@ void display()
 		m1->render();
 	    glEndList();
 	}
-
+	glRotatef(rotAng[0],1,0,0);
+	glRotatef(rotAng[1],0,1,0);
+	glRotatef(rotAng[2],0,0,1);
 	glCallList(scene_list);
+	
+	glLightfv(GL_LIGHT0,GL_POSITION,position);
 	//--------------------------------------------------------
 //	physics(world);
 //	render(world);
@@ -154,14 +156,14 @@ void display()
 	glPopMatrix();
 	//swap buffers - rendering is done to the back buffer, bring it forward to display
 	glutSwapBuffers();
-
+	updateTime();
 	//force a redisplay, to keep the animation running
 	glutPostRedisplay();
 }
 
 void idle()
 {
-//	handleKeys();
+	handleKeys();
 }
 
 int main(int argc, char** argv)
@@ -175,12 +177,12 @@ int main(int argc, char** argv)
 	glutIgnoreKeyRepeat(TRUE);
 	//register glut callbacks for keyboard and display function
 
-//	glutKeyboardFunc(kbd);
-//	glutSpecialFunc(special);
+	glutKeyboardFunc(kbd);
+	glutSpecialFunc(special);
 //	glutPassiveMotionFunc(passiveMouse);
 	glutDisplayFunc(display);
 //	glutKeyboardUpFunc(keyUp);
-//	glutSpecialUpFunc(keySpecialUp);
+	glutSpecialUpFunc(keySpecialUp);
 
 	glutIdleFunc(idle);
 
@@ -189,11 +191,11 @@ int main(int argc, char** argv)
 //	initPhysics();
 //	constructScene();
 	
-	m1 = new mesh();
-	m1->loadasset(path);
+	m1 = new mesh(path);
+	//m1->loadasset(path);
 	//look down from 45 degree angle
 //	srand(deltaTime());
-	glTranslated(0,-10,-20);
+	//glTranslated(0,-10,-20);
 	glRotatef(45,1,0,0);
 
 	//start the program!
