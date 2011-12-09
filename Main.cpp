@@ -141,7 +141,7 @@ void display()
             // now begin at the root node of the imported data and traverse
             // the scenegraph by multiplying subsequent local transforms
             // together on GL's matrix stack.
-		m1->render(m1->scene, m1->scene->mRootNode);
+		m1->render();
 	    glEndList();
 	}
 
@@ -198,17 +198,6 @@ int main(int argc, char** argv)
 
 	//start the program!
 	glutMainLoop();
-
-		// cleanup - calling 'aiReleaseImport' is important, as the library 
-	// keeps internal resources until the scene is freed again. Not 
-	// doing so can cause severe resource leaking.
-	aiReleaseImport(m1->scene);
-
-	// We added a log stream to the library, it's our job to disable it
-	// again. This will definitely release the last resources allocated
-	// by Assimp.
-	aiDetachAllLogStreams();
-
 
 	return 0;
 }

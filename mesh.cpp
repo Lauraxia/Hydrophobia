@@ -6,6 +6,8 @@
 //#include "includes/common.h"
 
 // Helpful functions for mesh
+
+// Can't send color down as a pointer to aiColor4D because AI colors are ABGR.
 void Color4f(const struct aiColor4D *color)
 {
 	glColor4f(color->r, color->g, color->b, color->a);
@@ -30,10 +32,6 @@ void set_float4(float f[4], float a, float b, float c, float d)
 }
 
 // ----------------------------------------------------------------------------
-
-// Create an instance of the Importer class
-//Assimp::Importer importer;
-
 mesh::mesh()
 {
 	scene = NULL;
@@ -41,15 +39,29 @@ mesh::mesh()
 	//loadasset(path);
 	//LoadGLTextures(scene);
 }
+mesh::mesh(const char* path)
+{
+	loadasset(path);
+}
 mesh::~mesh()
 {
 	// cleaning up
+
+
+	// cleanup - calling 'aiReleaseImport' is important, as the library 
+	// keeps internal resources until the scene is freed again. Not 
+	// doing so can cause severe resource leaking.
+	aiReleaseImport(scene);
 	//textureIdMap.clear(); 
 }
+//------------------------------------------------------------------------------
+void mesh::render ()
+{
+	recursive_render(scene, scene->mRootNode);
+}
 
-// Can't send color down as a pointer to aiColor4D because AI colors are ABGR.
-
-void mesh::render (const struct aiScene *sc, const struct aiNode* nd)
+//------------------------------------------------------------------------------
+void mesh::recursive_render (const struct aiScene *sc, const struct aiNode* nd)
 {
 	int i;
 	unsigned int n = 0, t;
@@ -107,7 +119,7 @@ void mesh::render (const struct aiScene *sc, const struct aiNode* nd)
 
 	// draw all children
 	for (n = 0; n < nd->mNumChildren; ++n) {
-		render(sc, nd->mChildren[n]);
+		recursive_render(sc, nd->mChildren[n]);
 	}
 
 	glPopMatrix();

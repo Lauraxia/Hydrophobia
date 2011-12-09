@@ -36,13 +36,15 @@ public:
 	//std::vector<struct MyMesh> myMeshes;
 public:
 	mesh();
+	mesh::mesh(const char* path);
 	~mesh();
 public:
-	void render (const struct aiScene *sc, const struct aiNode* nd);
+	void render ();
 	//bool Import3DFromFile( const std::string& pFile);
 	bool loadasset (const char* path);
 	void apply_material(const struct aiMaterial *mtl);
 private:
+	void recursive_render (const struct aiScene *sc, const struct aiNode* nd);
 	//void init(const aiScene* pScene, const std::string& Filename);
 	//void initMesh(unsigned int Index, const aiMesh* paiMesh);
 	//int LoadGLTextures(const aiScene* scene);
