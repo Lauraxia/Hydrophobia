@@ -8,15 +8,14 @@
 
 //Camera variables
 float camInitPos[3] = {0,100,100};
-//float camInitv[3] = {1,0,-1};
-//float camInitAng = -45;
 Camera *cam = new Camera(camInitPos);
-
 float rotAng[] = {0,0,0};
-//float angle[] = {0,0,0};
 
 mesh *m1;
 GLuint scene_list = 0;
+
+float lightPosition[] = {10,10,10};
+
 // ------------------------------------------------------------
 //
 // Model loading and OpenGL setup
@@ -38,8 +37,11 @@ void initialize()
 	//	Init GLEW
 	glewInit();
 	if (glewIsSupported("GL_VERSION_3_3"))
+	{
 		printf("Ready for OpenGL 3.3\n");
-	else {
+	}
+	else 
+	{
 		printf("OpenGL 3.3 not supported\n");
 		exit(1);
 	}
@@ -53,22 +55,14 @@ void initialize()
 	glEnable(GL_CULL_FACE);
 
 	//setup the initial view
-	// change to projection matrix mode, set the extents of our viewing volume
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	
 	gluPerspective(100,0.6,0.01,1000);
-	//set clear colour to white
-	glClearColor(1, 1, 1, 0);
-
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
 	glShadeModel(GL_SMOOTH); // Enable Smooth Shading
 	glClearColor(0.0f, 0.0f, 0.0f, 0.5f); // Black Background
 	glClearDepth(1.0f); // Depth Buffer Setup
 
-	glEnable(GL_DEPTH_TEST);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Pretty Perspective Calculations :D
 
 	//rotate camera initialy
@@ -86,7 +80,6 @@ void initialize()
 	
 }
 
-float position[] = {10,10,10};
 void display()
 {
 	//clear the screen
@@ -115,7 +108,7 @@ void display()
 	glPopMatrix();
 
 	//Light
-	glLightfv(GL_LIGHT0,GL_POSITION,position);
+	glLightfv(GL_LIGHT0,GL_POSITION,lightPosition);
 	//--------------------------------------------------------
 
 	glPopMatrix();
@@ -136,20 +129,15 @@ int main(int argc, char** argv)
 	glutInit(&argc, argv);
 	initialize();
 
-	//set number of Display list elements that are needed
-	//GLuint glGenLists(5);
-
 	glutIgnoreKeyRepeat(TRUE);
-	//register glut callbacks for keyboard and display function
 
+	//register glut callbacks for keyboard and display function
 	glutKeyboardFunc(kbd);
 	glutPassiveMotionFunc(passiveMouse);
 	glutDisplayFunc(display);
 	glutKeyboardUpFunc(keyUp);
 
 	glutIdleFunc(idle);
-
-	float pos[] = {0,0,0};
 	
 	m1 = new mesh("assets\\Inflatable boat.3ds");
 
