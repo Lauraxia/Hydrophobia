@@ -14,7 +14,7 @@
 //#include <crtdbg.h>
 
 //extern Node *world;
-float camInitPos[3] = {0,50,0};
+float camInitPos[3] = {0,100,0};
 float camInitv[3] = {1,0,-1};
 float camInitAng = -45;
 Camera *cam = new Camera(camInitPos);
@@ -146,8 +146,9 @@ void display()
 	//glRotatef(rotAng[2],0,0,1);
 	//glTranslated(0,-10,-20);
 	cam->setView();
+	glPushMatrix();
 	glCallList(scene_list);
-	
+	glPopMatrix();
 	glLightfv(GL_LIGHT0,GL_POSITION,position);
 	//--------------------------------------------------------
 //	physics(world);
