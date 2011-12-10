@@ -2,18 +2,18 @@
 #include "includes\camera.h"
 #include "includes\physics.h"
 #include "includes\control.h"
-
-// Debug Stuff
-#include <stdio.h>
 #include "includes\mesh.h"
 
-float camInitPos[3] = {0,100,0};
-float camInitv[3] = {1,0,-1};
-float camInitAng = -45;
+#include <stdio.h>
+
+//Camera variables
+float camInitPos[3] = {0,100,100};
+//float camInitv[3] = {1,0,-1};
+//float camInitAng = -45;
 Camera *cam = new Camera(camInitPos);
 
 float rotAng[] = {0,0,0};
-float angle[] = {0,0,0};
+//float angle[] = {0,0,0};
 
 mesh *m1;
 GLuint scene_list = 0;
@@ -57,7 +57,6 @@ void initialize()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	
-	//gluPerspective(90, 1, 0.5, 2000);
 	gluPerspective(100,0.6,0.01,1000);
 	//set clear colour to white
 	glClearColor(1, 1, 1, 0);
@@ -94,16 +93,11 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 
-	//cam->setView();
-
 	glPushMatrix();
-	
-	
 
-	float tmp;
 
-        // if the display list has not been made yet, create a new one and
-        // fill it with scene contents
+    // if the display list has not been made yet, create a new one and
+    // fill it with scene contents
 	if(scene_list == 0) {
 	    scene_list = glGenLists(1);
 	    glNewList(scene_list, GL_COMPILE);
@@ -114,15 +108,15 @@ void display()
 	    glEndList();
 	}
 
+	//This update the camera position
 	cam->setView();
 	glPushMatrix();
 	glCallList(scene_list);
 	glPopMatrix();
+
+	//Light
 	glLightfv(GL_LIGHT0,GL_POSITION,position);
 	//--------------------------------------------------------
-//	physics(world);
-//	render(world);
-//	updateTime();
 
 	glPopMatrix();
 	//swap buffers - rendering is done to the back buffer, bring it forward to display
@@ -149,25 +143,15 @@ int main(int argc, char** argv)
 	//register glut callbacks for keyboard and display function
 
 	glutKeyboardFunc(kbd);
-	glutSpecialFunc(special);
 	glutPassiveMotionFunc(passiveMouse);
 	glutDisplayFunc(display);
-//	glutKeyboardUpFunc(keyUp);
-	glutSpecialUpFunc(keySpecialUp);
+	glutKeyboardUpFunc(keyUp);
 
 	glutIdleFunc(idle);
 
 	float pos[] = {0,0,0};
 	
-//	initPhysics();
-//	constructScene();
-	
 	m1 = new mesh("assets\\Inflatable boat.3ds");
-	//m1->loadasset(path);
-	//look down from 45 degree angle
-//	srand(deltaTime());
-	
-	//glRotatef(45,1,0,0);
 
 	//start the program!
 	glutMainLoop();
