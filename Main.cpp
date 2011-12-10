@@ -2,27 +2,26 @@
 //#include "render.h"
 //#include "scene.h"
 //#include "scene_constructor.h"
-//#include "camera.h"
-#include "physics.h"
-#include "control.h"
+#include "includes\camera.h"
+#include "includes\physics.h"
+#include "includes\control.h"
 
 // Debug Stuff
 //#define _CRTDBG_MAP_ALLOC
 #include <stdio.h>
-#include "mesh.h"
+#include "includes\mesh.h"
 
 //#include <crtdbg.h>
 
 //extern Node *world;
-//float camInitPos[3] = {0,50,0};
-//float camInitv[3] = {1,0,-1};
-//float camInitAng = -45;
-//Camera *cam = new Camera();
+float camInitPos[3] = {0,50,0};
+float camInitv[3] = {1,0,-1};
+float camInitAng = -45;
+Camera *cam = new Camera(camInitPos);
 //float lastTime = 0;
 float rotAng[] = {0,0,0};
 float angle[] = {0,0,0};
 
-const std::string path = "bench.obj";
 mesh *m1;
 GLuint scene_list = 0;
 // ------------------------------------------------------------
@@ -142,9 +141,11 @@ void display()
 		m1->render();
 	    glEndList();
 	}
-	glRotatef(rotAng[0],1,0,0);
-	glRotatef(rotAng[1],0,1,0);
-	glRotatef(rotAng[2],0,0,1);
+	//glRotatef(rotAng[0],1,0,0);
+	//glRotatef(rotAng[1],0,1,0);
+	//glRotatef(rotAng[2],0,0,1);
+	//glTranslated(0,-10,-20);
+	cam->setView();
 	glCallList(scene_list);
 	
 	glLightfv(GL_LIGHT0,GL_POSITION,position);
@@ -179,7 +180,7 @@ int main(int argc, char** argv)
 
 	glutKeyboardFunc(kbd);
 	glutSpecialFunc(special);
-//	glutPassiveMotionFunc(passiveMouse);
+	glutPassiveMotionFunc(passiveMouse);
 	glutDisplayFunc(display);
 //	glutKeyboardUpFunc(keyUp);
 	glutSpecialUpFunc(keySpecialUp);
@@ -191,12 +192,12 @@ int main(int argc, char** argv)
 //	initPhysics();
 //	constructScene();
 	
-	m1 = new mesh(path);
+	m1 = new mesh("assets\\Inflatable boat.3ds");
 	//m1->loadasset(path);
 	//look down from 45 degree angle
 //	srand(deltaTime());
-	//glTranslated(0,-10,-20);
-	glRotatef(45,1,0,0);
+	
+	//glRotatef(45,1,0,0);
 
 	//start the program!
 	glutMainLoop();

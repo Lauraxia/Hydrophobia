@@ -6,7 +6,7 @@
 #include <IL\il.h>
 #include <string>
 #include <map>
-#include "mesh.h"
+#include "includes\mesh.h"
 
 
 GLboolean abortGLInit(const char*);

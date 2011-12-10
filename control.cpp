@@ -1,12 +1,13 @@
-#include "control.h"
+#include "includes\control.h"
 //#include "util.h"
-#include "physics.h"
+#include "includes\physics.h"
+#include <math.h>
 //#include "scene.h"
 /* kbd -- the GLUT keyboard function 
  *  key -- the key pressed
  *  x and y - mouse x and y coordinates at the time the function is called
  */
-//extern Camera *cam;
+extern Camera *cam;
 extern float rotAng[];
 extern float windVel[];
 extern bool frictionMode;
@@ -53,26 +54,26 @@ void special(int key, int x, int y)
 
 void passiveMouse(int x,int y)
 {
-	//static int centerX = glutGet(GLUT_WINDOW_WIDTH) / 2;
- //   static int centerY = glutGet(GLUT_WINDOW_HEIGHT) / 2;
+	static int centerX = glutGet(GLUT_WINDOW_WIDTH) / 2;
+    static int centerY = glutGet(GLUT_WINDOW_HEIGHT) / 2;
 
-	//float dx = (float)(x - centerX);
-	//float dy = (float)(y - centerY);
+	float dx = (float)(x - centerX);
+	float dy = (float)(y - centerY);
 
-	//ax = dx - lastdx;
-	//ay = dy - lastdy;
+	ax = dx - lastdx;
+	ay = dy - lastdy;
 
-	//if(dx != 0 || dy != 0)
-	//{
+	if(dx != 0 || dy != 0)
+	{
 
-	//	float ref[3] = {dy,0,0};
-	//	//float *ref = normalize(ref1);
-	//	cam->rotate(1 + deltaTime()/100,ref);
-	//	ref[0] = 0;
-	//	ref[1] = dx*0.5;
-	//	cam->gRotate(1 + deltaTime()/100,ref);
-	//	glutWarpPointer(centerX, centerY);
-	//}
+		float ref[3] = {dy,0,0};
+		//float *ref = normalize(ref1);
+		cam->rotate(1 + fabs(dy)*deltaTime()/100,ref);
+		ref[0] = 0;
+		ref[1] = dx*0.5;
+		cam->gRotate(1 + fabs(dx)*deltaTime()/100,ref);
+		glutWarpPointer(centerX, centerY);
+	}
 }
 
 void handleKeys()

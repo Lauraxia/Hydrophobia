@@ -1,5 +1,5 @@
 #include "includes\common.h"
-//#include "camera.h"
+#include "includes\camera.h"
 
 void keyUp(unsigned char key, int x, int y);
 void keySpecialUp(int key, int x, int y);
