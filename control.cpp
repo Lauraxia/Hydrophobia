@@ -71,7 +71,7 @@ void passiveMouse(int x,int y)
 		cam->rotate(1 + fabs(dy)*deltaTime()/100,ref);
 		ref[0] = 0;
 		ref[1] = dx*0.5;
-		cam->gRotate(1 + fabs(dx)*deltaTime()/100,ref);
+		cam->gRotate(1 + -fabs(dx)*deltaTime()/100,ref);
 		glutWarpPointer(centerX, centerY);
 	}
 }
