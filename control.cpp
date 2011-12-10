@@ -2,6 +2,7 @@
 //#include "util.h"
 #include "includes\physics.h"
 #include <math.h>
+#include <stdio.h>
 //#include "scene.h"
 /* kbd -- the GLUT keyboard function 
  *  key -- the key pressed
@@ -18,12 +19,10 @@ bool wind = false;
 bool explod = false;
 bool gainMomentum = false;
 
-float ax = 0;
-float ay = 0;
-float lastdx = 0;
-float lastdy = 0;
 float invspeed = 20;
 int shadeMode = 1;
+
+
 
 bool light = true;
 bool keys[256] = {false};
@@ -56,26 +55,29 @@ void passiveMouse(int x,int y)
 {
 	static int centerX = glutGet(GLUT_WINDOW_WIDTH) / 2;
     static int centerY = glutGet(GLUT_WINDOW_HEIGHT) / 2;
-	static float xAngle = 0;
+	static float yAngle = 0;
 
 	float dx = (float)(x - centerX);
 	float dy = (float)(y - centerY);
-
-	ax = dx - lastdx;
-	ay = dy - lastdy;
 
 	if(dx != 0 || dy != 0)
 	{
 
 		float ref[3] = {dy,0,0};
 		//float *ref = normalize(ref1);
-		cam->rotate(1 + fabs(dx)*deltaTime()/100,ref);
+		//yAngle < -160 && dy > 0 || yAngle > 160 && dy < 0 ||
+		if( yAngle < 160 && yAngle > -160)
+		//{
+			yAngle += 1 + dy*deltaTime()/100;
+			cam->rotate(1 + fabs(dy)*deltaTime()/100,ref);
+		//}
+		printf("Angle: '%f'\n", yAngle);
+
 		ref[0] = 0;
 		ref[1] = dx*0.5;
 
-
-		cam->gRotate(1 + fabs(dx)*deltaTime()/100,ref);
-
+		cam->gRotate(1 + fabs(dy)*deltaTime()/100,ref);
+			
 		glutWarpPointer(centerX, centerY);
 	}
 }
