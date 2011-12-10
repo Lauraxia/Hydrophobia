@@ -1,24 +1,17 @@
 #include "includes\common.h"
-//#include "render.h"
-//#include "scene.h"
-//#include "scene_constructor.h"
 #include "includes\camera.h"
 #include "includes\physics.h"
 #include "includes\control.h"
 
 // Debug Stuff
-//#define _CRTDBG_MAP_ALLOC
 #include <stdio.h>
 #include "includes\mesh.h"
 
-//#include <crtdbg.h>
-
-//extern Node *world;
 float camInitPos[3] = {0,100,0};
 float camInitv[3] = {1,0,-1};
 float camInitAng = -45;
 Camera *cam = new Camera(camInitPos);
-//float lastTime = 0;
+
 float rotAng[] = {0,0,0};
 float angle[] = {0,0,0};
 
@@ -43,7 +36,6 @@ void initialize()
 	glutCreateWindow("Hydrophobia");
 
 	//	Init GLEW
-	//glewExperimental = GL_TRUE;
 	glewInit();
 	if (glewIsSupported("GL_VERSION_3_3"))
 		printf("Ready for OpenGL 3.3\n");
@@ -108,27 +100,7 @@ void display()
 	
 	
 
-	//recursive_render(m1->scene,m1->scene->mRootNode);
-	//------------------------------------------------------
 	float tmp;
-
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glLoadIdentity();
-	//gluLookAt(0.f,0.f,3.f,0.f,0.f,-5.f,0.f,1.f,0.f);
-
-	// rotate it around the y axis
-	//glRotatef(angle,0.f,1.f,0.f);
-
-	// scale the whole asset to fit into our view frustum 
-	//tmp = scene_max.x-scene_min.x;
-	//tmp = aisgl_max(scene_max.y - scene_min.y,tmp);
-	//tmp = aisgl_max(scene_max.z - scene_min.z,tmp);
-	//tmp = 1.f / tmp;
-	//glScalef(tmp, tmp, tmp);
-
-        // center the model
-	//glTranslatef( -scene_center.x, -scene_center.y, -scene_center.z );
 
         // if the display list has not been made yet, create a new one and
         // fill it with scene contents
@@ -141,10 +113,7 @@ void display()
 		m1->render();
 	    glEndList();
 	}
-	//glRotatef(rotAng[0],1,0,0);
-	//glRotatef(rotAng[1],0,1,0);
-	//glRotatef(rotAng[2],0,0,1);
-	//glTranslated(0,-10,-20);
+
 	cam->setView();
 	glPushMatrix();
 	glCallList(scene_list);

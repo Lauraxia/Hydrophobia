@@ -49,8 +49,12 @@
       <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Windows\v7.1\Lib;C:\Users\Laura\Desktop\Hydrophobia\Hydrophobia\dependencies\lib;C:\Users\Laura\Desktop\Hydrophobia\Hydrophobia\dependencies\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>copy /y "$(ProjectDir)dependencies\bin\" "$(OutDir)"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy /y "$(ProjectDir)dependencies\bin\" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
