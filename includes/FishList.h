@@ -1,4 +1,6 @@
 #pragma once
+#include "includes/Fish.h"
+
 class FishList
 {
 public:
@@ -6,5 +8,6 @@ public:
 	~FishList(void);
 	int FishList::UpdateFishPositionBites(int milliseconds);
 	void FishList::DrawAllFish();
+	Fish * FishList::GetFish(int angle);
 };
 

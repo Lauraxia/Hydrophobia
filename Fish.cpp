@@ -20,6 +20,7 @@ int pathType; //the trajectory type of the fish
 int jumpPoint; //frame where the jump begins
 
 int xPosition = START_DISTANCE; //current x position of fish -- decreases till it reaches 0
+int yPosition = 0;
 int rawXPositionRemainder = 0; //milliseconds left over after last advance
 bool isJumping = false;
 
@@ -86,12 +87,17 @@ bool Fish::AdvancePosition(int milliseconds) //returns false if successful attac
 		//TODO: have y position here? or take care of in external class?
 		if (isJumping)
 		{
+			yPosition = fishPaths[pathType][xPosition - jumpPoint];
 			//advance animation
 			animationFrame++;
 			if (animationFrame > ANIMATION_FRAME_NUM)
 			{
 				animationFrame = 0;
 			}
+		}
+		else
+		{
+			yPosition = 0; //TODO: really necessary every time? probably not...
 		}
 	}
 	return true;
@@ -104,8 +110,8 @@ int Fish::getPositionX() //used by drawing function in FishList
 
 int Fish::getPositionY() //used by drawing function in FishList
 {
-	//TODO: hook this up, either by storing ypos each advance, or by looking up from elsewhere
-	return 0;
+	//ypos updated each time in advance
+	return yPosition;
 }
 
 int Fish::getSize() //used by drawing function in FishList

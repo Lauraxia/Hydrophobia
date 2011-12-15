@@ -44,7 +44,8 @@ void drawFish(Fish fish, int angle)
 	glPushMatrix();
 		glTranslatef(fish.getPositionX(), fish.getPositionY(), 0);
 		glRotatef(angle, 0,1,0);
-		glutSolidCube(fish.getSize());
+		glColor3f(1,0,1);
+		glutSolidCube(fish.getSize()); //TODO: is this actually a good metric for deciding size, or scale?
 
 	glPopMatrix();
 }
@@ -61,3 +62,9 @@ void FishList::DrawAllFish()
 	}
 }
 
+//called by main function, when testing for collisions with a potential fish target
+Fish * FishList::GetFish(int angle)
+{
+	if (fishList.count(angle)) return &fishList[angle];
+	return NULL;
+}

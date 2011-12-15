@@ -81,15 +81,17 @@
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="control.h" />
-    <ClInclude Include="drawWorld.h" />
-    <ClInclude Include="Fish.h" />
-    <ClInclude Include="FishList.h" />
+    <ClInclude Include="includes\camera.h" />
     <ClInclude Include="includes\common.h" />
-    <ClInclude Include="mesh.h" />
-    <ClInclude Include="physics.h" />
-    <ClInclude Include="util.h" />
+    <ClInclude Include="includes\control.h" />
+    <ClInclude Include="includes\drawWorld.h" />
+    <ClInclude Include="includes\Fish.h" />
+    <ClInclude Include="includes\FishList.h" />
+    <ClInclude Include="includes\mesh.h" />
+    <ClInclude Include="includes\model.h" />
+    <ClInclude Include="includes\physics.h" />
+    <ClInclude Include="includes\render.h" />
+    <ClInclude Include="includes\util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

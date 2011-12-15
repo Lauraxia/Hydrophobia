@@ -44,31 +44,37 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="includes\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="util.h">
+    <ClInclude Include="includes\control.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mesh.h">
+    <ClInclude Include="includes\drawWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="control.h">
+    <ClInclude Include="includes\Fish.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="physics.h">
+    <ClInclude Include="includes\FishList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="drawWorld.h">
+    <ClInclude Include="includes\mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
+    <ClInclude Include="includes\model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Fish.h">
+    <ClInclude Include="includes\physics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FishList.h">
+    <ClInclude Include="includes\render.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
