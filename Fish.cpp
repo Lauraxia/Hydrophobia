@@ -15,9 +15,6 @@ Fish::Fish(int pathTypeValue, int typeOfFish, int sizeOfFish, int jumpPointX)
 	isJumping = false;
 	animationFrame = 0; //for when jumping, where it is in the animation
 
-	//finish initializing fishpaths
-	for(int i = 0;i < NUM_POSSIBLE_PATHS; i++)
-		fishPaths[i] = new int[JUMP_BREADTH];
 
 	pathType = pathTypeValue;
 	fishType = typeOfFish;
@@ -25,6 +22,7 @@ Fish::Fish(int pathTypeValue, int typeOfFish, int sizeOfFish, int jumpPointX)
 	fishSize = sizeOfFish;
 	if (!pathsInitialized)
 	{
+
 		setupFishPaths(); //done only once
 	}
 }
@@ -38,9 +36,6 @@ Fish::Fish(void) //apparently maps need a default constructor, so here it is... 
 
 	animationFrame = 0; //for when jumping, where it is in the animation
 
-	for(int i = 0;i < NUM_POSSIBLE_PATHS; i++)
-		fishPaths[i] = new int[JUMP_BREADTH];
-
 	if (!pathsInitialized)
 	{
 		setupFishPaths(); //done only once
@@ -50,9 +45,9 @@ Fish::Fish(void) //apparently maps need a default constructor, so here it is... 
 
 Fish::~Fish(void)
 {
-	for(int i = 0;i < NUM_POSSIBLE_PATHS; i++)
-		delete fishPaths[i];
-	delete fishPaths;
+	//for(int i = 0;i < NUM_POSSIBLE_PATHS; i++)
+	//	delete fishPaths[i];
+	//delete fishPaths;
 }
 
 
@@ -110,6 +105,8 @@ int Fish::getSize() //used by drawing function in FishList
 //must be called once at the start -- done so invisibly from normal constructor
 void Fish::setupFishPaths()
 {
+	for(int i = 0;i < NUM_POSSIBLE_PATHS; i++)
+		fishPaths[i] = new int[JUMP_BREADTH];
 	//TODO: evaluate quality of these paths -- just a rough cut for now
 	for (int i = 0; i<NUM_POSSIBLE_PATHS; i++)
 	{
