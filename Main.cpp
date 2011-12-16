@@ -23,6 +23,9 @@ int ammo = 200;
 int points = 0; //+10 when a fish a hit
 FishList fishList;
 
+int winWidth = 800;
+int winHeight = 800;
+
 mesh *m1;
 GLuint scene_list = 0;
 
@@ -42,7 +45,7 @@ void initialize()
 
 	//glut initialization stuff:
 	// set the window size, display mode, and create the window
-	glutInitWindowSize(800, 800);
+	glutInitWindowSize(winWidth, winHeight);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutCreateWindow("Hydrophobia");
 
@@ -139,14 +142,12 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 
-	//updateTime();
+	//This update the camera position
+	cam->setView();
+
 	health -= fishList.UpdateFishPositionBites(deltaTime());
 
 	glPushMatrix();
-	
-		
-
-		
 
 			// if the display list has not been made yet, create a new one and
 			// fill it with scene contents
@@ -161,12 +162,11 @@ void display()
 			glEndList();
 		}
 
-		//This update the camera position
-		cam->setView();
+		
 
 		fishList.DrawAllFish();
 
-		/*
+		
 		//test to see where the heck we are
 		glPushMatrix();
 			glTranslatef(0, 0, 0);
@@ -186,7 +186,7 @@ void display()
 			glColor3f(0,1,0);
 			glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
 		glPopMatrix();
-		*/
+		
 
 		glPushMatrix();
 		//glCallList(scene_list); //TODO: PUT THIS BACK
@@ -230,6 +230,8 @@ int main(int argc, char** argv)
 
 	m1 = new mesh("assets\\Inflatable boat.3ds");
 
+	//move cursor to center to avoid sudden jump
+	glutWarpPointer(winWidth/2, winHeight/2);
 	//start the program!
 	glutMainLoop();
 
