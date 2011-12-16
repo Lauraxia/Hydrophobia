@@ -22,7 +22,7 @@ public:
 	GLuint*		textureIds;							// pointer to texture Array
 public:
 	mesh();
-	mesh::mesh(const std::string& filename);
+	mesh::mesh(const std::string& filename, float scale);
 	~mesh();
 public:
 	void render ();

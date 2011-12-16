@@ -50,9 +50,9 @@ mesh::mesh()
 	//loadasset(path);
 	//LoadGLTextures(scene);
 }
-mesh::mesh(const std::string& path)
+mesh::mesh(const std::string& path, float scale)
 {
-	scale = 0.3;
+	this->scale = scale;
 	loadasset(path);
 	loadtexture();
 }
