@@ -1,3 +1,5 @@
+//Created with help from sample code at http://www.lighthouse3d.com/cg-topics/code-samples/importing-3d-models-with-assimp/
+
 // Mesh datatype using Open Asset Import Library to store, and 
 // render 3D models
 // This code is based on the sample code included with the Library
