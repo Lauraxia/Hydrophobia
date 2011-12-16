@@ -68,24 +68,25 @@ void passiveMouse(int x,int y)
 	if(dw != 0 || dh != 0)
 	{
 
-		float ref[3] = {1,0,0};
+		/*float ref[3] = {1,0,0};*/
 		//float *ref = normalize(ref1);
 		//yAngle < -160 && dy > 0 || yAngle > 160 && dy < 0 ||
 		//if( yAngle < 160 && yAngle > -160)
 		//{
 			xAngle = dh*deltaTime()/100;
-			cam->rotate(dh*deltaTime()/100,ref);
-
+			//cam->rotate(dh*deltaTime()/100,ref);
+			rotAng[0] += dh*deltaTime()/100;
 		//}
 		//printf("Angle: '%f'\n", yAngle);
 
-		ref[0] = 0;
-		ref[1] = 1;
+		/*ref[0] = 0;
+		ref[1] = 1;*/
 
 		yAngle = dw*deltaTime()/100;
-		cam->gRotate(dw*deltaTime()/100,ref);
+		rotAng[1] += dw*deltaTime()/100;
+		//cam->gRotate(dw*deltaTime()/100,ref);
 
-		angle[0] += xAngle;
+		/*angle[0] += xAngle;
 		angle[1] += yAngle;
 			
 		if(angle[0] >360)
@@ -96,8 +97,9 @@ void passiveMouse(int x,int y)
 		if(angle[1] >360)
 			angle[1] = angle[1] - 360;
 		else if(angle[1] < 0)
-			angle[1] = 360 + angle[1];
+			angle[1] = 360 + angle[1];*/
 
+		printf("\tAngle: %f\n",angle[1]);
 		glutWarpPointer(centerX, centerY);
 	}
 }
@@ -105,7 +107,7 @@ void passiveMouse(int x,int y)
 void handleKeys()
 {
 	/////////////////////////////
-	//MOUE KEYS
+	//MOsUE KEYS
 	///////////////////////////
 	if(mouseButton[GLUT_LEFT_BUTTON])
 	{

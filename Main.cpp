@@ -41,7 +41,7 @@ mesh *m3;
 GLuint scene_list = 0;
 GLuint scene_list2 = 0;
 
-float lightPosition[] = {10,10,10};
+float lightPosition[] = {10,100,10};
 
 // ------------------------------------------------------------
 //
@@ -51,7 +51,7 @@ void initialize()
 {
 	//Lighting Settings
 	//float amb[] = {0.33f, 0.22f, 0.03f, 0.5f};
-	float amb[] = {3.0f, 3.0f, 3.0f, 1.0f};
+	float amb[] = {1.0f, 1.2f, 1.0f, 1.0f};
 	float diff[] = {0.78f, 0.57f, 0.11f, 0.50f};
 	float spec[] = {0.4f, 0.4f, 0.8f, 0.5f};
 	float shiny = 24;
@@ -86,7 +86,7 @@ void initialize()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	//gluPerspective(100,0.6,0.01,1000);
-	gluPerspective(120,0.6,0.01,3000);
+	gluPerspective(120,0.6,0.01,3500);
 	glMatrixMode(GL_MODELVIEW);
 	glShadeModel(GL_SMOOTH); // Enable Smooth Shading
 	glClearColor(0.0f, 0.0f, 0.0f, 0.5f); // Black Background
@@ -100,7 +100,7 @@ void initialize()
 	//glPopMatrix();
 
 	//Lighting stuff
-	//glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHT1);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, amb);
@@ -252,9 +252,12 @@ void display()
 	//clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
-
+	
 	//This update the camera position
-	cam->setView();
+	//cam->setView();
+	glRotatef(rotAng[0],1,0,0);
+	glRotatef(rotAng[1],0,1,0);
+	glRotatef(rotAng[2],0,0,1);
 
 	health -= fishList.UpdateFishPositionBites(deltaTime());
 
@@ -267,20 +270,16 @@ void display()
 			scene_list = glGenLists(1);
 			glNewList(scene_list, GL_COMPILE);
 
-			m1 = new mesh("assets\\raft3.obj",15);
-			glPushMatrix();
-			glTranslated(-400,50,0);
-						
-			m1->render(); //TODO: PUT THIS BACK
-			glPopMatrix();
+			
 						// now begin at the root node of the imported data and traverse
 						// the scenegraph by multiplying subsequent local transforms
 						// together on GL's matrix stack.
-						m2 = new mesh("assets\\skybox.obj",40);
+			m2 = new mesh("assets\\skybox.obj",40);
 			glPushMatrix();
 			glTranslated(-500,1200,0);
 			m2->render();
 			glPopMatrix();
+
 
 			m3 = new mesh("assets\\waterobj.obj",40);
 			glPushMatrix();
@@ -288,14 +287,21 @@ void display()
 			m3->render();
 			glPopMatrix();
 
-
-
+			m1 = new mesh("assets\\raft3.obj",15);
+			glPushMatrix();
+			glTranslated(0,50,0);
+		
+			glEnable(GL_NORMALIZE);
+			m1->render(); 
+			glDisable(GL_NORMALIZE);
+			glPopMatrix();
+			
 
 			glEndList();
 		}
-
+		glPushMatrix();
 		fishList.DrawAllFish();
-
+		glPopMatrix();
 		
 		////test to see where the heck we are
 		//glPushMatrix();
@@ -327,6 +333,10 @@ void display()
 
 	//Light
 	glLightfv(GL_LIGHT0,GL_POSITION,lightPosition);
+	glPushMatrix();
+	glTranslated(lightPosition[0],lightPosition[1],lightPosition[2]);
+	glutSolidSphere(10,20,1);
+	glPopMatrix();
 
 	glPopMatrix();
 
