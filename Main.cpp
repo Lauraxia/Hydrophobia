@@ -256,9 +256,9 @@ void display()
 	
 	//This update the camera position
 	//cam->setView();
-	glRotatef(rotAng[0],1,0,0);
-	glRotatef(rotAng[1],0,1,0);
-	glRotatef(rotAng[2],0,0,1);
+	glRotatef(angle[0],1,0,0);
+	glRotatef(angle[1],0,1,0);
+	glRotatef(angle[2],0,0,1);
 
 	health -= fishList.UpdateFishPositionBites(deltaTime());
 

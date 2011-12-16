@@ -73,9 +73,10 @@ void passiveMouse(int x,int y)
 		//yAngle < -160 && dy > 0 || yAngle > 160 && dy < 0 ||
 		//if( yAngle < 160 && yAngle > -160)
 		//{
-			xAngle = dh*deltaTime()/100;
+			
 			//cam->rotate(dh*deltaTime()/100,ref);
-			rotAng[0] += dh*deltaTime()/100;
+		//rotAng[0] += dh*deltaTime()/100;
+		xAngle = dh*deltaTime()/100;
 		//}
 		//printf("Angle: '%f'\n", yAngle);
 
@@ -83,23 +84,27 @@ void passiveMouse(int x,int y)
 		ref[1] = 1;*/
 
 		yAngle = dw*deltaTime()/100;
-		rotAng[1] += dw*deltaTime()/100;
+		//rotAng[1] += dw*deltaTime()/100;
 		//cam->gRotate(dw*deltaTime()/100,ref);
 
-		/*angle[0] += xAngle;
+		
 		angle[1] += yAngle;
 			
-		if(angle[0] >360)
-			angle[0] = angle[0] - 360;
-		else if(angle[0] < 0)
-			angle[0] = 360 + angle[0];
+		if(angle[0] + xAngle <= 90 && angle[0] + xAngle >= -90)
+		{
+			angle[0] += xAngle;
+			//if(angle[0] >360)
+				//angle[0] = angle[0] - 360;
+			//else if(angle[0] < 0)
+				//angle[0] = 360 + angle[0];
+		}
 
 		if(angle[1] >360)
 			angle[1] = angle[1] - 360;
 		else if(angle[1] < 0)
-			angle[1] = 360 + angle[1];*/
+			angle[1] = 360 + angle[1];
 
-		printf("\tAngle: %f\n",angle[1]);
+		printf("\tAngle: %f\n",angle[0]);
 		glutWarpPointer(centerX, centerY);
 	}
 }
