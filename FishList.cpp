@@ -137,7 +137,12 @@ void FishList::DrawAllFish()
 		}
 	}
 	if (isFirstFish)
-		printf("firstfish: '%d'\n", fishList[firstFish].getPositionX());
+	{
+		if (fishList.count(firstFish))
+		{
+			printf("firstfish: '%d'\n", fishList[firstFish].getPositionX());
+		}
+	}
 }
 
 //called by main function, when testing for collisions with a potential fish target
