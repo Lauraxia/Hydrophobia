@@ -6,6 +6,7 @@
 #include "includes\FishList.h"
 #include <string.h>
 #include <stdio.h>
+#include <math.h>
 #include <sstream>
 using namespace std;
 
@@ -140,27 +141,59 @@ void drawHUD()
 	string pointsString = "Points: " + ss.str();
 	RenderText(2.4,5.1, pointsString.c_str());
 }
-void shoot()
-{
-		
-}
-void playerEvents()
-{
-	static int fireTime = 0;
-	if(fire)
-	{
-		fire = false;
-		if(glutGet(GLUT_ELAPSED_TIME) - fireTime >= fireRate)
-		{
-			shoot();
-			fireTime = glutGet(GLUT_ELAPSED_TIME);
-		}
-	}
-}
+//bool hit_test(Fish fish)
+//{
+//	
+//}
+//void shoot()
+//{
+//	
+//	// Find degree range of potential collision
+//	int xLeftRange = ceil(angle[0] - fishList.maxRange);
+//	int xRightRange= ceil(angle[0] + fishList.maxRange);
+//
+//	int yLeftRange = ceil(angle[1] - fishList.maxRange);
+//	int yRightRange= ceil(angle[1] - fishList.maxRange);
+//
+//	// Get max and min range
+//	if(xLeftRange < 0)
+//		xLeftRange = 360 + xLeftRange;
+//	if(xRightRange > 360)
+//		xRightRange = xRightRange - 360;
+//
+//	if(yLeftRange < 0)
+//		yLeftRange = 360 + yLeftRange;
+//	if(yRightRange > 360)
+//		yRightRange = yRightRange - 360;
+//
+//	//Scan all bounds accross the x axis
+//	for(int i = xLeftRange; i<=xRightRange ; i++)
+//	{
+//		if(fishList.GetFish(i) != NULL)
+//			hit_test(fishList.GetFish(i));
+//	}
+//
+//	double dRange = 2*asin(size/distance);
+//
+//	if
+//}
+//void playerEvents()
+//{
+//	static int fireTime = 0;
+//	if(fire)
+//	{
+//		fire = false;
+//		if(glutGet(GLUT_ELAPSED_TIME) - fireTime >= fireRate)
+//		{
+//			//shoot();
+//			fireTime = glutGet(GLUT_ELAPSED_TIME);
+//		}
+//	}
+//}
 
 void display()
 {
-	playerEvents();
+//	playerEvents();
 	//clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
@@ -181,7 +214,7 @@ void display()
 						// now begin at the root node of the imported data and traverse
 						// the scenegraph by multiplying subsequent local transforms
 						// together on GL's matrix stack.
-			//m1->render(); //TODO: PUT THIS BACK
+			m1->render(); //TODO: PUT THIS BACK
 			glEndList();
 		}
 
@@ -190,29 +223,30 @@ void display()
 		fishList.DrawAllFish();
 
 		
-		//test to see where the heck we are
-		glPushMatrix();
-			glTranslatef(0, -1, 0);
-			//glRotatef(angle, 0,1,0);
-			glColor3f(1,0,1);
-			glutSolidCube(1); //TODO: is this actually a good metric for deciding size, or scale?
-		glPopMatrix();
-		glPushMatrix();
-			glTranslatef(1, -1, 0);
-			//glRotatef(angle, 0,1,0);
-			glColor3f(1,0,0);
-			glutSolidCube(1); //TODO: is this actually a good metric for deciding size, or scale?
-		glPopMatrix();
-		glPushMatrix();
-			glTranslatef(0,-1, 1);
-			//glRotatef(angle, 0,1,0);
-			glColor3f(0,1,0);
-			glutSolidCube(1); //TODO: is this actually a good metric for deciding size, or scale?
-		glPopMatrix();
+		////test to see where the heck we are
+		//glPushMatrix();
+		//	glTranslatef(0, -1, 0);
+		//	//glRotatef(angle, 0,1,0);
+		//	glColor3f(1,0,1);
+		//	glutSolidCube(1); //TODO: is this actually a good metric for deciding size, or scale?
+		//glPopMatrix();
+		//glPushMatrix();
+		//	glTranslatef(1, -1, 0);
+		//	//glRotatef(angle, 0,1,0);
+		//	glColor3f(1,0,0);
+		//	glutSolidCube(1); //TODO: is this actually a good metric for deciding size, or scale?
+		//glPopMatrix();
+		//glPushMatrix();
+		//	glTranslatef(0,-1, 1);
+		//	//glRotatef(angle, 0,1,0);
+		//	glColor3f(0,1,0);
+		//	glutSolidCube(1); //TODO: is this actually a good metric for deciding size, or scale?
+		//glPopMatrix();
 		
 
 		glPushMatrix();
-		//glCallList(scene_list); //TODO: PUT THIS BACK
+		glTranslated(400,-300,0);
+		glCallList(scene_list); //TODO: PUT THIS BACK
 	glPopMatrix();
 
 	updateTime();
@@ -252,7 +286,7 @@ int main(int argc, char** argv)
 
 	glutIdleFunc(idle);
 
-	m1 = new mesh("assets\\Inflatable boat.3ds");
+	m1 = new mesh("assets\\Inflatable boat.3ds",0.5);
 
 	//move cursor to center to avoid sudden jump
 	glutWarpPointer(winWidth/2, winHeight/2);
