@@ -3,6 +3,7 @@
 #include "includes\physics.h"
 #include <math.h>
 #include <stdio.h>
+
 //#include "scene.h"
 /* kbd -- the GLUT keyboard function 
  *  key -- the key pressed
@@ -11,6 +12,9 @@
 extern Camera *cam;
 extern float rotAng[];
 extern float windVel[];
+
+extern float angle[3];
+
 extern bool frictionMode;
 bool rain = false;
 bool pauseParticles = false;
@@ -55,29 +59,46 @@ void passiveMouse(int x,int y)
 {
 	static int centerX = glutGet(GLUT_WINDOW_WIDTH) / 2;
     static int centerY = glutGet(GLUT_WINDOW_HEIGHT) / 2;
+	static float xAngle = 0;
 	static float yAngle = 0;
 
-	float dx = (float)(x - centerX);
-	float dy = (float)(y - centerY);
+	//change in width, and height
+	float dw = (float)(x - centerX);
+	float dh = (float)(y - centerY);
 
-	if(dx != 0 || dy != 0)
+	if(dw != 0 || dh != 0)
 	{
 
-		float ref[3] = {dy,0,0};
+		float ref[3] = {1,0,0};
 		//float *ref = normalize(ref1);
 		//yAngle < -160 && dy > 0 || yAngle > 160 && dy < 0 ||
-		if( yAngle < 160 && yAngle > -160)
+		//if( yAngle < 160 && yAngle > -160)
 		//{
-			yAngle += 1 + dy*deltaTime()/100;
-			cam->rotate(1 + fabs(dy)*deltaTime()/100,ref);
+			xAngle = dh*deltaTime()/100;
+			cam->rotate(dh*deltaTime()/100,ref);
+
 		//}
-		printf("Angle: '%f'\n", yAngle);
+		//printf("Angle: '%f'\n", yAngle);
 
 		ref[0] = 0;
-		ref[1] = dx*0.5;
+		ref[1] = 1;
 
-		cam->gRotate(1 + fabs(dy)*deltaTime()/100,ref);
+		yAngle = dw*deltaTime()/100;
+		cam->gRotate(dw*deltaTime()/100,ref);
+
+		angle[0] += xAngle;
+		angle[1] += yAngle;
 			
+		if(angle[0] >360)
+			angle[0] = angle[0] - 360;
+		else if(angle[0] < 0)
+			angle[0] = 360 + angle[0];
+
+		if(angle[1] >360)
+			angle[1] = angle[1] - 360;
+		else if(angle[1] < 0)
+			angle[1] = 360 + angle[1];
+
 		glutWarpPointer(centerX, centerY);
 	}
 }

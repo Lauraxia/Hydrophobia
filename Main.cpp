@@ -12,6 +12,9 @@ float camInitPos[3] = {0,100,100};
 Camera *cam = new Camera(camInitPos);
 float rotAng[] = {0,0,0};
 
+// shooting angle
+float angle[3];
+
 //game status variables:
 int health = 100; //-20 when bitten (TODO: vary based on fish size?!)
 int ammo = 200;
@@ -84,6 +87,10 @@ void initialize()
 	glLightfv(GL_LIGHT0, GL_AMBIENT, amb);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diff);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, spec);
+
+}
+void shoot()
+{
 
 }
 
