@@ -184,14 +184,14 @@ void shoot()
 {
 	float dist_test = 1000000;
 	
-	double maxRange = 2*asin((double)(0.5)*(double)fishList.GetMaxFishSize()/(double)fishList.GetFishAttackThreshold());
+	double maxRange = 10;//2*asin((double)(0.5)*(double)fishList.GetMaxFishSize()/(double)fishList.GetFishAttackThreshold());
 
 	// Find degree range of potential collision
-	int xLeftRange = ceil(angle[1] - maxRange)+ 180;
-	int xRightRange= ceil(angle[1] + maxRange)+ 180;
+	int xLeftRange = ceil(angle[1] - maxRange);//+ 180;
+	int xRightRange= ceil(angle[1] + maxRange);//+ 180;
 
-	int yLeftRange = ceil(angle[0] - maxRange);
-	int yRightRange= ceil(angle[0] - maxRange);
+	//int yLeftRange = ceil(angle[0] - maxRange);
+	//int yRightRange= ceil(angle[0] - maxRange);
 
 	// Get max and min range
 	if(xLeftRange < 0)
@@ -199,10 +199,11 @@ void shoot()
 	if(xRightRange > 360)
 		xRightRange = xRightRange - 360;
 
+	/*
 	if(yLeftRange < 0)
 		yLeftRange = 360 + yLeftRange;
 	if(yRightRange > 360)
-		yRightRange = yRightRange - 360;
+		yRightRange = yRightRange - 360;*/
 	
 
 	//Scan all bounds accross x
@@ -213,7 +214,7 @@ void shoot()
 			Fish *temp_fish = fishList.GetFish(i);
 			if(hit_testX(*temp_fish, i))//&& hit_testY(*temp_fish, i))
 			{
-				if(temp_fish->getPositionX() < dist_test)
+				//if(temp_fish->getPositionX() < dist_test)
 					dist_test = temp_fish->getPositionX();
 			}
 		}
@@ -222,6 +223,7 @@ void shoot()
 	if(dist_test != 1000000)
 	{
 		fishList.DeleteFish(dist_test);
+		points += 10;
 	}
 }
 void playerEvents()
