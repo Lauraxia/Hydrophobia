@@ -1,18 +1,16 @@
 #include "includes/common.h"
 #include "includes/FishList.h"
 #include "includes/Fish.h"
-#include <map>
+
 using namespace std;
 
 
-std::map<int, Fish> fishList; //any fish on screen, from 0 to 360 degrees
-int spawnRate = 300; //ms before a new fish appears
-int timeElapsedSinceSpawn = 0; //when == spawnRate, new fish
+
 
 FishList::FishList(void)
 {
-	
-
+	spawnRate = 300; //ms before a new fish appears
+	timeElapsedSinceSpawn = 0; //when == spawnRate, new fish
 }
 
 
@@ -26,7 +24,9 @@ bool newFishIsTooClose(int newLane)
 	return false; //TODO: check to see if lane occupied, and preferably how far away neighbours are
 }
 
-void spawnNewFishIfNeeded()
+//TODO needs to be rewritten to work with objects
+
+void FishList::spawnNewFishIfNeeded()
 {
 	if (timeElapsedSinceSpawn >= spawnRate)
 	{
@@ -69,7 +69,7 @@ int FishList::UpdateFishPositionBites(int milliseconds)
 
 	//new fish are automatically added to keep up with desired spawn rate:
 	timeElapsedSinceSpawn += milliseconds;
-	spawnNewFishIfNeeded();
+//	spawnNewFishIfNeeded();
 
 	return fishBites;
 }

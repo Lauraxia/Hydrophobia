@@ -2,52 +2,22 @@
 #include <math.h>
 #include "includes\common.h"
 
-//TODO: figure out appropriate scale!
-static const int START_DISTANCE = 5000; //how far away fish are from the origin when they begin their attack
-static const int SUCCESSFUL_ATTACK_THRESHOLD = 50; //when the fish gets this close, we get eaten
-static const int ANIMATION_FRAME_NUM = 60; //number of total animation frames all fish have
-
-static const int NUM_POSSIBLE_PATHS = 10; //every fish has one of these predefined paths
-static const int PATH_MIN_AMPLITUDE = 5; //min, max scaling of path vertically
-static const int PATH_MAX_AMPLITUDE = 20;
-static const int JUMP_BREADTH = 2000; //how many frames long the jump path is (not necessarily finished by all fish)
-
-//specific fish information:
-int fishType; //the style of fish -- different models
-int fishSize;
-
-int pathType; //the trajectory type of the fish
-int jumpPoint; //frame where the jump begins
-
-int xPosition = START_DISTANCE; //current x position of fish -- decreases till it reaches 0
-int yPosition = 0;
-int rawXPositionRemainder = 0; //milliseconds left over after last advance
-bool isJumping = false;
-
-int animationFrame = 0; //for when jumping, where it is in the animation
-
-//common fish information:
 static bool pathsInitialized = false; //set to true after setupFishPaths run first time from constructor
-static int fishPaths[NUM_POSSIBLE_PATHS][JUMP_BREADTH]; //each possible path = array from jump start point to 0
 
-//must be called once at the start -- done so invisibly from normal constructor
-static void setupFishPaths() 
-{
-	//TODO: evaluate quality of these paths -- just a rough cut for now
-	for (int i = 0; i<NUM_POSSIBLE_PATHS; i++)
-	{
-		for (int j=0; j<JUMP_BREADTH; j++)
-		{
-			double currAmplitude = (PATH_MIN_AMPLITUDE + (i/(double)NUM_POSSIBLE_PATHS * (PATH_MAX_AMPLITUDE - PATH_MIN_AMPLITUDE)));
-			double currAngularFrequency = 1; //TODO: add proper formula here
-			fishPaths[i][j] = -1 * currAmplitude * sin(currAngularFrequency*j);
-		}
-	}
-	pathsInitialized = true;
-}
+//Static 2D Array
+int** Fish::fishPaths = new int*[NUM_POSSIBLE_PATHS];
 
 Fish::Fish(int pathTypeValue, int typeOfFish, int sizeOfFish, int jumpPointX)
 {
+	int xPosition = START_DISTANCE; //current x position of fish -- decreases till it reaches 0
+	int yPosition = 0;
+	int rawXPositionRemainder = 0; //milliseconds left over after last advance
+	bool isJumping = false;
+	int animationFrame = 0; //for when jumping, where it is in the animation
+
+	for(int i = 0;i < NUM_POSSIBLE_PATHS; i++)
+		fishPaths[i] = new int[JUMP_BREADTH];
+
 	pathType = pathTypeValue;
 	fishType = typeOfFish;
 	jumpPoint = jumpPointX;
@@ -60,11 +30,28 @@ Fish::Fish(int pathTypeValue, int typeOfFish, int sizeOfFish, int jumpPointX)
 
 Fish::Fish(void) //apparently maps need a default constructor, so here it is... never used though
 {
+	int xPosition = START_DISTANCE; //current x position of fish -- decreases till it reaches 0
+	int yPosition = 0;
+	int rawXPositionRemainder = 0; //milliseconds left over after last advance
+	bool isJumping = false;
+
+	int animationFrame = 0; //for when jumping, where it is in the animation
+
+	for(int i = 0;i < NUM_POSSIBLE_PATHS; i++)
+		fishPaths[i] = new int[JUMP_BREADTH];
+
+	if (!pathsInitialized)
+	{
+		setupFishPaths(); //done only once
+	}
 }
 
 
 Fish::~Fish(void)
 {
+	for(int i = 0;i < NUM_POSSIBLE_PATHS; i++)
+		delete fishPaths[i];
+	delete fishPaths;
 }
 
 
@@ -117,4 +104,20 @@ int Fish::getPositionY() //used by drawing function in FishList
 int Fish::getSize() //used by drawing function in FishList
 {
 	return fishSize;
+}
+
+//must be called once at the start -- done so invisibly from normal constructor
+void Fish::setupFishPaths()
+{
+	//TODO: evaluate quality of these paths -- just a rough cut for now
+	for (int i = 0; i<NUM_POSSIBLE_PATHS; i++)
+	{
+		for (int j=0; j<JUMP_BREADTH; j++)
+		{
+			double currAmplitude = (PATH_MIN_AMPLITUDE + (i/(double)NUM_POSSIBLE_PATHS * (PATH_MAX_AMPLITUDE - PATH_MIN_AMPLITUDE)));
+			double currAngularFrequency = 1; //TODO: add proper formula here
+			fishPaths[i][j] = -1 * currAmplitude * sin(currAngularFrequency*j);
+		}
+	}
+	pathsInitialized = true;
 }
