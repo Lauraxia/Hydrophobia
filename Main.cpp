@@ -11,7 +11,7 @@
 using namespace std;
 
 //Camera variables
-float camInitPos[3] = {0,0,0};
+float camInitPos[3] = {0,-50,0};
 Camera *cam = new Camera(camInitPos);
 float rotAng[] = {0,0,0};
 
@@ -122,6 +122,7 @@ void initialize()
 
 void RenderText(double x, double y, const char *string)
 {
+	glDisable(GL_LIGHTING);
 	int i, len;
 
 	glUseProgram(0);
@@ -131,12 +132,14 @@ void RenderText(double x, double y, const char *string)
 	glTranslatef(0.0f, 0.0f, -5.0f);
 	glRasterPos2f(x, y);
 
+
 	glDisable(GL_TEXTURE_2D);
 	for (i = 0, len = strlen(string); i < len; i++)
 	{
 		glutBitmapCharacter(GLUT_BITMAP_8_BY_13, (int)string[i]);
 	}
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_LIGHTING);
 }
 
 void drawHUD()
@@ -144,17 +147,17 @@ void drawHUD()
 	std::stringstream ss;
 	ss << health;
 	string healthString = "Health: " + ss.str();
-	RenderText(2.4,5.5, healthString.c_str());
+	RenderText(3.4,7.5, healthString.c_str());
 
 	ss.str( "" );
 	ss << ammo;
 	string ammoString = "Ammo: " + ss.str();
-	RenderText(2.4,5.3, ammoString.c_str());
+	RenderText(3.4,7.2, ammoString.c_str());
 
 	ss.str( "" );
 	ss << points;
 	string pointsString = "Points: " + ss.str();
-	RenderText(2.4,5.1, pointsString.c_str());
+	RenderText(3.4,6.9, pointsString.c_str());
 }
 bool hit_testX(Fish fish, int fishAng)
 {
@@ -281,7 +284,7 @@ void display()
 			m2->render();
 			glPopMatrix();
 
-			m1 = new mesh("assets\\raft3.obj",15);
+			m1 = new mesh("assets\\raft3.obj",13);
 			glPushMatrix();
 			glTranslated(-400,50,0);
 			glEnable(GL_NORMALIZE);
