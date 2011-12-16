@@ -148,95 +148,97 @@ void drawHUD()
 	string pointsString = "Points: " + ss.str();
 	RenderText(2.4,5.1, pointsString.c_str());
 }
-//bool hit_testX(Fish fish, int fishAng)
-//{
-//	int ang_rng = asin((double)(1/2)*fish.getSize()/fish.getPositionX());
-//	if(fishAng > angle[0])
-//	{
-//		if(fishAng - ang_rng < angle[0])
-//			return true;
-//	}
-//	else
-//	{
-//		if(fishAng + ang_rng > angle[0])
-//			return true;
-//	}
-//	return false;
-//}
-//bool hit_testY(Fish fish, int fishAng)
-//{
-//	int ang_rng = asin((double)(1/2)*fish.getSize()/fish.getPositionY());
-//	if(fishAng > angle[1])
-//	{
-//		if(fishAng - ang_rng < angle[1])
-//			return true;
-//	}
-//	else
-//	{
-//		if(fishAng + ang_rng > angle[1])
-//			return true;
-//	}
-//	return false;
-//}
-//void shoot()
-//{
-//	float dist_test = 1000000;
-//
-//	// Find degree range of potential collision
-//	int xLeftRange = ceil(angle[0] - fishList.maxRange);
-//	int xRightRange= ceil(angle[0] + fishList.maxRange);
-//
-//	int yLeftRange = ceil(angle[1] - fishList.maxRange);
-//	int yRightRange= ceil(angle[1] - fishList.maxRange);
-//
-//	// Get max and min range
-//	if(xLeftRange < 0)
-//		xLeftRange = 360 + xLeftRange;
-//	if(xRightRange > 360)
-//		xRightRange = xRightRange - 360;
-//
-//	if(yLeftRange < 0)
-//		yLeftRange = 360 + yLeftRange;
-//	if(yRightRange > 360)
-//		yRightRange = yRightRange - 360;
-//	
-//
-//	//Scan all bounds accross x
-//	for(int i = xLeftRange; i<=xRightRange ; i++)
-//	{
-//		if(fishList.GetFish(i) != NULL)
-//		{
-//			Fish *temp_fish = fishList.GetFish(i);
-//			if(hit_testX(*temp_fish, i) && hit_testY(*temp_fish, i))
-//			{
-//				if(temp_fish->getPositionX() < dist_test)
-//					dist_test = temp_fish->getPositionX();
-//			}
-//		}
-//	}
-//
-//	if(dist_test != 1000000)
-//	{
-//		fishList.DeleteFish(dist_test);
-//	}
-//}
-//void playerEvents()
-//{
-//	static int fireTime = 0;
-//	if(fire)
-//	{
-//		fire = false;
-//		if(glutGet(GLUT_ELAPSED_TIME) - fireTime >= fireRate)
-//		{
-//			//shoot();
-//			fireTime = glutGet(GLUT_ELAPSED_TIME);
-//		}
-//	}
-//}
+bool hit_testX(Fish fish, int fishAng)
+{
+	int ang_rng = asin((double)(1/2)*fish.getSize()/fish.getPositionX());
+	if(fishAng > angle[1])
+	{
+		if(fishAng - ang_rng < angle[1]- 187)
+			return true;
+	}
+	else
+	{
+		if(fishAng + ang_rng > angle[1]- 187)
+			return true;
+	}
+	return false;
+}
+bool hit_testY(Fish fish, int fishAng)
+{
+	int ang_rng = asin((double)(1/2)*fish.getSize()/fish.getPositionY());
+	if(fishAng > angle[0])
+	{
+		if(fishAng - ang_rng < angle[0]- 187)
+			return true;
+	}
+	else
+	{
+		if(fishAng + ang_rng > angle[0]- 187)
+			return true;
+	}
+	return false;
+}
+void shoot()
+{
+	float dist_test = 1000000;
+	
+	double maxRange = 2*asin((double)(0.5)*(double)fishList.GetMaxFishSize()/(double)fishList.GetFishAttackThreshold());
+
+	// Find degree range of potential collision
+	int xLeftRange = ceil(angle[1] - maxRange)+ 180;
+	int xRightRange= ceil(angle[1] + maxRange)+ 180;
+
+	int yLeftRange = ceil(angle[0] - maxRange);
+	int yRightRange= ceil(angle[0] - maxRange);
+
+	// Get max and min range
+	if(xLeftRange < 0)
+		xLeftRange = 360 + xLeftRange;
+	if(xRightRange > 360)
+		xRightRange = xRightRange - 360;
+
+	if(yLeftRange < 0)
+		yLeftRange = 360 + yLeftRange;
+	if(yRightRange > 360)
+		yRightRange = yRightRange - 360;
+	
+
+	//Scan all bounds accross x
+	for(int i = xLeftRange; i<=xRightRange ; i++)
+	{
+		if(fishList.GetFish(i) != NULL)
+		{
+			Fish *temp_fish = fishList.GetFish(i);
+			if(hit_testX(*temp_fish, i))//&& hit_testY(*temp_fish, i))
+			{
+				if(temp_fish->getPositionX() < dist_test)
+					dist_test = temp_fish->getPositionX();
+			}
+		}
+	}
+
+	if(dist_test != 1000000)
+	{
+		fishList.DeleteFish(dist_test);
+	}
+}
+void playerEvents()
+{
+	static int fireTime = 0;
+	if(fire)
+	{
+		fire = false;
+		if(glutGet(GLUT_ELAPSED_TIME) - fireTime >= fireRate)
+		{
+			shoot();
+			fireTime = glutGet(GLUT_ELAPSED_TIME);
+		}
+	}
+}
 
 void display()
 {
-//	playerEvents();
+	playerEvents();
 	//clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
@@ -297,10 +299,10 @@ void display()
 		
 
 		glPushMatrix();
-		m2->render();
+		//m2->render();
 		glTranslated(400,-300,0);
-		glCallList(scene_list); 
-		glCallList(scene_list2);
+		//glCallList(scene_list); 
+		//glCallList(scene_list2);
 		
 	glPopMatrix();
 
@@ -342,7 +344,7 @@ int main(int argc, char** argv)
 	glutIdleFunc(idle);
 
 	m1 = new mesh("assets\\Inflatable boat.3ds",0.5);
-	m2 = new mesh("assets\\skybox.obj",5);
+	//m2 = new mesh("assets\\skybox.obj",5);
 
 	//move cursor to center to avoid sudden jump
 	glutWarpPointer(winWidth/2, winHeight/2);
