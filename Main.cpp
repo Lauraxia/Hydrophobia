@@ -104,6 +104,11 @@ void initialize()
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diff);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, spec);
 
+
+	//enable textures
+	//glEnable(GL_TEXTURE_2D);
+	//glDisable(GL_BLEND);
+	//glDisable(GL_LIGHTING);
 }
 
 
@@ -143,13 +148,40 @@ void drawHUD()
 	string pointsString = "Points: " + ss.str();
 	RenderText(2.4,5.1, pointsString.c_str());
 }
-//bool hit_test(Fish fish)
+//bool hit_testX(Fish fish, int fishAng)
 //{
-//	
+//	int ang_rng = asin((double)(1/2)*fish.getSize()/fish.getPositionX());
+//	if(fishAng > angle[0])
+//	{
+//		if(fishAng - ang_rng < angle[0])
+//			return true;
+//	}
+//	else
+//	{
+//		if(fishAng + ang_rng > angle[0])
+//			return true;
+//	}
+//	return false;
+//}
+//bool hit_testY(Fish fish, int fishAng)
+//{
+//	int ang_rng = asin((double)(1/2)*fish.getSize()/fish.getPositionY());
+//	if(fishAng > angle[1])
+//	{
+//		if(fishAng - ang_rng < angle[1])
+//			return true;
+//	}
+//	else
+//	{
+//		if(fishAng + ang_rng > angle[1])
+//			return true;
+//	}
+//	return false;
 //}
 //void shoot()
 //{
-//	
+//	float dist_test = 1000000;
+//
 //	// Find degree range of potential collision
 //	int xLeftRange = ceil(angle[0] - fishList.maxRange);
 //	int xRightRange= ceil(angle[0] + fishList.maxRange);
@@ -167,17 +199,26 @@ void drawHUD()
 //		yLeftRange = 360 + yLeftRange;
 //	if(yRightRange > 360)
 //		yRightRange = yRightRange - 360;
+//	
 //
-//	//Scan all bounds accross the x axis
+//	//Scan all bounds accross x
 //	for(int i = xLeftRange; i<=xRightRange ; i++)
 //	{
 //		if(fishList.GetFish(i) != NULL)
-//			hit_test(fishList.GetFish(i));
+//		{
+//			Fish *temp_fish = fishList.GetFish(i);
+//			if(hit_testX(*temp_fish, i) && hit_testY(*temp_fish, i))
+//			{
+//				if(temp_fish->getPositionX() < dist_test)
+//					dist_test = temp_fish->getPositionX();
+//			}
+//		}
 //	}
 //
-//	double dRange = 2*asin(size/distance);
-//
-//	if
+//	if(dist_test != 1000000)
+//	{
+//		fishList.DeleteFish(dist_test);
+//	}
 //}
 //void playerEvents()
 //{
@@ -219,16 +260,16 @@ void display()
 			m1->render(); //TODO: PUT THIS BACK
 			glEndList();
 		}
-		if(scene_list2 == 0) 
-		{
-			scene_list2 = glGenLists(1);
-			glNewList(scene_list2, GL_COMPILE);
-						// now begin at the root node of the imported data and traverse
-						// the scenegraph by multiplying subsequent local transforms
-						// together on GL's matrix stack.
-			m2->render(); //TODO: PUT THIS BACK
-			glEndList();
-		}
+		//if(scene_list2 == 0) 
+		//{
+		//	scene_list2 = glGenLists(1);
+		//	glNewList(scene_list2, GL_COMPILE);
+		//				// now begin at the root node of the imported data and traverse
+		//				// the scenegraph by multiplying subsequent local transforms
+		//				// together on GL's matrix stack.
+		//	m2->render(); //TODO: PUT THIS BACK
+		//	glEndList();
+		//}
 		
 
 		fishList.DrawAllFish();
@@ -256,8 +297,11 @@ void display()
 		
 
 		glPushMatrix();
+		m2->render();
 		glTranslated(400,-300,0);
-		glCallList(scene_list); //TODO: PUT THIS BACK
+		glCallList(scene_list); 
+		glCallList(scene_list2);
+		
 	glPopMatrix();
 
 	updateTime();
@@ -298,7 +342,7 @@ int main(int argc, char** argv)
 	glutIdleFunc(idle);
 
 	m1 = new mesh("assets\\Inflatable boat.3ds",0.5);
-	m2 = new mesh("assets\\Inflatable boat.3ds",0.9);//("assets\\skybox.obj",0.001);
+	m2 = new mesh("assets\\skybox.obj",1);
 
 	//move cursor to center to avoid sudden jump
 	glutWarpPointer(winWidth/2, winHeight/2);

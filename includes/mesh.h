@@ -15,6 +15,8 @@
 class mesh
 {
 public:
+	// Create an instance of the Importer class
+	Assimp::Importer importer;
 	// the global Assimp scene object
 	const aiScene* scene;
 	float scale;

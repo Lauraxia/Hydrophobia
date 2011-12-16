@@ -12,9 +12,6 @@
 GLboolean abortGLInit(const char*);
 
 
-// Create an instance of the Importer class
-Assimp::Importer importer;
-
 // Helpful functions for mesh
 
 // Can't send color down as a pointer to aiColor4D because AI colors are ABGR.
@@ -92,7 +89,7 @@ void mesh::recursive_render (const struct aiScene *sc, const struct aiNode* nd, 
 	{
 		const struct aiMesh* mesh = scene->mMeshes[nd->mMeshes[n]];
 
-		apply_material(sc->mMaterials[mesh->mMaterialIndex]);
+		//apply_material(sc->mMaterials[mesh->mMaterialIndex]);
 
 
 		if(mesh->mNormals == NULL)
