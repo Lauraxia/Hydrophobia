@@ -4,17 +4,18 @@
 
 static bool pathsInitialized = false; //set to true after setupFishPaths run first time from constructor
 
-//Static 2D Array
+//Static 2D Array initialization
 int** Fish::fishPaths = new int*[NUM_POSSIBLE_PATHS];
 
 Fish::Fish(int pathTypeValue, int typeOfFish, int sizeOfFish, int jumpPointX)
 {
-	int xPosition = START_DISTANCE; //current x position of fish -- decreases till it reaches 0
-	int yPosition = 0;
-	int rawXPositionRemainder = 0; //milliseconds left over after last advance
-	bool isJumping = false;
-	int animationFrame = 0; //for when jumping, where it is in the animation
+	xPosition = START_DISTANCE; //current x position of fish -- decreases till it reaches 0
+	yPosition = 0;
+	rawXPositionRemainder = 0; //milliseconds left over after last advance
+	isJumping = false;
+	animationFrame = 0; //for when jumping, where it is in the animation
 
+	//finish initializing fishpaths
 	for(int i = 0;i < NUM_POSSIBLE_PATHS; i++)
 		fishPaths[i] = new int[JUMP_BREADTH];
 
@@ -30,12 +31,12 @@ Fish::Fish(int pathTypeValue, int typeOfFish, int sizeOfFish, int jumpPointX)
 
 Fish::Fish(void) //apparently maps need a default constructor, so here it is... never used though
 {
-	int xPosition = START_DISTANCE; //current x position of fish -- decreases till it reaches 0
-	int yPosition = 0;
-	int rawXPositionRemainder = 0; //milliseconds left over after last advance
-	bool isJumping = false;
+	xPosition = START_DISTANCE; //current x position of fish -- decreases till it reaches 0
+	yPosition = 0;
+	rawXPositionRemainder = 0; //milliseconds left over after last advance
+	isJumping = false;
 
-	int animationFrame = 0; //for when jumping, where it is in the animation
+	animationFrame = 0; //for when jumping, where it is in the animation
 
 	for(int i = 0;i < NUM_POSSIBLE_PATHS; i++)
 		fishPaths[i] = new int[JUMP_BREADTH];
