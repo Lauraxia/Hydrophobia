@@ -261,7 +261,7 @@ void playerEvents()
 	if(fire)
 	{
 		fire = false;
-		if(glutGet(GLUT_ELAPSED_TIME) - fireTime >= fireRate)
+		if(glutGet(GLUT_ELAPSED_TIME) - fireTime >= fireRate && ammo > 0)
 		{
 			shoot();
 			ammo--;
