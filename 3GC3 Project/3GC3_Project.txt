@@ -1,0 +1,16 @@
+Alexander Scigajlo 0750592
+
+Use mouse to shoot, and turn the player.
+q quits the game.
+
+
+
+features: 
+
+Loading in arbitrary models
+lighting
+textures
+alpha blending
+partial picking
+simple HUD
+World Box

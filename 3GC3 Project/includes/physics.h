@@ -1,0 +1,2 @@
+int deltaTime();
+void updateTime();
