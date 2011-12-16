@@ -269,31 +269,23 @@ void display()
 						// now begin at the root node of the imported data and traverse
 						// the scenegraph by multiplying subsequent local transforms
 						// together on GL's matrix stack.
+			m1 = new mesh("assets\\Inflatable boat.3ds",0.5);
 			m1->render(); //TODO: PUT THIS BACK
 
+			m2 = new mesh("assets\\skybox.obj",40);
 			glPushMatrix();
 			glTranslated(-500,1200,0);
 			m2->render();
 			glPopMatrix();
 
+			m3 = new mesh("assets\\waterobj.obj",40);
 			glPushMatrix();
-			glTranslated(0,-100,0);
+			glTranslated(0,0,0);
 			m3->render();
 			glPopMatrix();
 
 			glEndList();
 		}
-		//if(scene_list2 == 0) 
-		//{
-		//	scene_list2 = glGenLists(1);
-		//	glNewList(scene_list2, GL_COMPILE);
-		//				// now begin at the root node of the imported data and traverse
-		//				// the scenegraph by multiplying subsequent local transforms
-		//				// together on GL's matrix stack.
-		//	m2->render(); //TODO: PUT THIS BACK
-		//	glEndList();
-		//}
-		
 
 		fishList.DrawAllFish();
 
@@ -318,13 +310,9 @@ void display()
 		//	glutSolidCube(1); //TODO: is this actually a good metric for deciding size, or scale?
 		//glPopMatrix();
 		
-
 		glPushMatrix();
-		//m2->render();
-		//glTranslated(400,-300,0);
 		glTranslated(400,-300,0);
 		glCallList(scene_list); 
-		//glCallList(scene_list2);
 		
 	glPopMatrix();
 
@@ -364,11 +352,6 @@ int main(int argc, char** argv)
 	glutKeyboardUpFunc(keyUp);
 
 	glutIdleFunc(idle);
-	
-	m1 = new mesh("assets\\Inflatable boat.3ds",0.5);
-	m2 = new mesh("assets\\skybox.obj",40);
-	m3 = new mesh("assets\\waterobj.obj",40);
-	
 
 	//move cursor to center to avoid sudden jump
 	glutWarpPointer(winWidth/2, winHeight/2);
