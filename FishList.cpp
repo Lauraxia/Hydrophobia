@@ -61,6 +61,23 @@ void FishList::spawnNewFishIfNeeded()
 	}
 }
 
+
+void FishList::DeleteFish(int angle)
+{
+	if (fishList.count(angle)) //check that fish to be removed exists
+	{
+		fishList.erase(angle);
+	}
+}
+
+void handleFishBite(int angle)
+{
+	//could have particle effect, or screen turning red, or something... tbd
+	//for now, just delete offending fish
+	DeleteFish(angle);
+}
+
+
 //called from main loop -- advance fish, return how many of them have bitten us just now,
 //as a sum of their sizes:
 int FishList::UpdateFishPositionBites(int milliseconds)
@@ -74,6 +91,7 @@ int FishList::UpdateFishPositionBites(int milliseconds)
 			if (!fishList[i].AdvancePosition(milliseconds)) //the fish bit us!
 			{
 				fishBites+= fishList[i].getSize();
+				handleFishBite(i);
 			}
 		}
 	}

@@ -14,6 +14,7 @@ public:
 	int FishList::UpdateFishPositionBites(int milliseconds);
 	void FishList::DrawAllFish();
 	Fish * FishList::GetFish(int angle);
+	void FishList::DeleteFish(int angle);
 private:
 	void spawnNewFishIfNeeded();
 };
