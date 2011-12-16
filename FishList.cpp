@@ -70,7 +70,7 @@ void FishList::DeleteFish(int angle)
 	}
 }
 
-void handleFishBite(int angle)
+void FishList::handleFishBite(int angle)
 {
 	//could have particle effect, or screen turning red, or something... tbd
 	//for now, just delete offending fish
