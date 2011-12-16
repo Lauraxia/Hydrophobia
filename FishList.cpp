@@ -126,11 +126,11 @@ void drawFish(Fish fish, int angle)
 	glPushMatrix();
 		glRotatef(angle, 0,1,0);
 		double x = fish.getPositionX();
-		double y =  fish.getPositionY();
-		glTranslatef(fish.getPositionX(), fish.getPositionY(), 0);
+		double y =  fish.getPositionY() ;
+		glTranslatef(fish.getPositionX(), fish.getPositionY()-20, 0);
 
 		glColor3f(1,0,1);
-		glutSolidCube(fish.getSize()*0.5); //TODO: is this actually a good metric for deciding size, or scale?
+		glutSolidCube(fish.getSize()); //TODO: is this actually a good metric for deciding size, or scale?
 
 	glPopMatrix();
 }

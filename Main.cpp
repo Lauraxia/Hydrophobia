@@ -158,7 +158,7 @@ void drawHUD()
 }
 bool hit_testX(Fish fish, int fishAng)
 {
-	int ang_rng = asin((double)(1/2)*fish.getSize()/fish.getPositionX());
+	int ang_rng = 10;//asin((double)(1/2)*fish.getSize()/fish.getPositionX());
 	if(fishAng > angle[1])
 	{
 		if(fishAng - ang_rng < angle[1]- 187)
@@ -266,13 +266,17 @@ void display()
 		{
 			scene_list = glGenLists(1);
 			glNewList(scene_list, GL_COMPILE);
+
+			m1 = new mesh("assets\\raft3.obj",15);
+			glPushMatrix();
+			glTranslated(-400,50,0);
+						
+			m1->render(); //TODO: PUT THIS BACK
+			glPopMatrix();
 						// now begin at the root node of the imported data and traverse
 						// the scenegraph by multiplying subsequent local transforms
 						// together on GL's matrix stack.
-			m1 = new mesh("assets\\Inflatable boat.3ds",0.5);
-			m1->render(); //TODO: PUT THIS BACK
-
-			m2 = new mesh("assets\\skybox.obj",40);
+						m2 = new mesh("assets\\skybox.obj",40);
 			glPushMatrix();
 			glTranslated(-500,1200,0);
 			m2->render();
@@ -283,6 +287,9 @@ void display()
 			glTranslated(0,0,0);
 			m3->render();
 			glPopMatrix();
+
+
+
 
 			glEndList();
 		}
