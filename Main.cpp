@@ -49,9 +49,10 @@ float lightPosition[] = {10,10,10};
 void initialize()
 {
 	//Lighting Settings
-	float amb[] = {0.33f, 0.22f, 0.03f, 0.5f};
+	//float amb[] = {0.33f, 0.22f, 0.03f, 0.5f};
+	float amb[] = {3.0f, 3.0f, 3.0f, 1.0f};
 	float diff[] = {0.78f, 0.57f, 0.11f, 0.50f};
-	float spec[] = {0.15f, 0.4f, 0.8f, 0.5f};
+	float spec[] = {0.4f, 0.4f, 0.8f, 0.5f};
 	float shiny = 24;
 
 	//glut initialization stuff:
@@ -83,7 +84,8 @@ void initialize()
 	//setup the initial view
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(100,0.6,0.01,1000);
+	//gluPerspective(100,0.6,0.01,1000);
+	gluPerspective(120,0.6,0.01,3000);
 	glMatrixMode(GL_MODELVIEW);
 	glShadeModel(GL_SMOOTH); // Enable Smooth Shading
 	glClearColor(0.0f, 0.0f, 0.0f, 0.5f); // Black Background
@@ -260,6 +262,12 @@ void display()
 						// the scenegraph by multiplying subsequent local transforms
 						// together on GL's matrix stack.
 			m1->render(); //TODO: PUT THIS BACK
+
+			glPushMatrix();
+			glTranslated(-500,1200,0);
+			m2->render();
+			glPopMatrix();
+
 			glEndList();
 		}
 		//if(scene_list2 == 0) 
@@ -300,6 +308,7 @@ void display()
 
 		glPushMatrix();
 		//m2->render();
+		//glTranslated(400,-300,0);
 		glTranslated(400,-300,0);
 		//glCallList(scene_list); 
 		//glCallList(scene_list2);
@@ -344,7 +353,7 @@ int main(int argc, char** argv)
 	glutIdleFunc(idle);
 
 	m1 = new mesh("assets\\Inflatable boat.3ds",0.5);
-	//m2 = new mesh("assets\\skybox.obj",5);
+	m2 = new mesh("assets\\skybox.obj",40);
 
 	//move cursor to center to avoid sudden jump
 	glutWarpPointer(winWidth/2, winHeight/2);
