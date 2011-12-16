@@ -29,17 +29,6 @@ Fish::Fish(int pathTypeValue, int typeOfFish, int sizeOfFish, int jumpPointX)
 
 Fish::Fish(void) //apparently maps need a default constructor, so here it is... never used though
 {
-	xPosition = START_DISTANCE; //current x position of fish -- decreases till it reaches 0
-	yPosition = 0;
-	rawXPositionRemainder = 0; //milliseconds left over after last advance
-	isJumping = false;
-
-	animationFrame = 0; //for when jumping, where it is in the animation
-
-	if (!pathsInitialized)
-	{
-		setupFishPaths(); //done only once
-	}
 }
 
 

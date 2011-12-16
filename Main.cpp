@@ -169,22 +169,22 @@ void display()
 		
 		//test to see where the heck we are
 		glPushMatrix();
-			glTranslatef(0, 0, 0);
+			glTranslatef(0, -1, 0);
 			//glRotatef(angle, 0,1,0);
 			glColor3f(1,0,1);
-			glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
+			glutSolidCube(1); //TODO: is this actually a good metric for deciding size, or scale?
 		glPopMatrix();
 		glPushMatrix();
-			glTranslatef(10, 0, 0);
+			glTranslatef(1, -1, 0);
 			//glRotatef(angle, 0,1,0);
 			glColor3f(1,0,0);
-			glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
+			glutSolidCube(1); //TODO: is this actually a good metric for deciding size, or scale?
 		glPopMatrix();
 		glPushMatrix();
-			glTranslatef(0,100, 100);
+			glTranslatef(0,-1, 1);
 			//glRotatef(angle, 0,1,0);
 			glColor3f(0,1,0);
-			glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
+			glutSolidCube(1); //TODO: is this actually a good metric for deciding size, or scale?
 		glPopMatrix();
 		
 
