@@ -74,7 +74,7 @@ void FishList::handleFishBite(int angle)
 {
 	//could have particle effect, or screen turning red, or something... tbd
 	//for now, just delete offending fish
-	DeleteFish(angle);
+	//DeleteFish(angle);
 }
 
 
@@ -84,16 +84,24 @@ int FishList::UpdateFishPositionBites(int milliseconds)
 {
 	int fishBites = 0;
 	//update positions of all fish in the list:
-	for (int i=0; i<360; i++)
+	map<int, Fish>::iterator i = fishList.begin();
+	while(i != fishList.end())
 	{
-		if (fishList.count(i)) //there's a fish at this angle
-		{
-			if (!fishList[i].AdvancePosition(milliseconds)) //the fish bit us!
+	//for (int i=0; i<360; i++)
+	//{
+		//if (fishList.count(i)) //there's a fish at this angle
+		//{
+		if (!(*&i)->second.AdvancePosition(milliseconds)) //the fish bit us!
 			{
-				fishBites+= fishList[i].getSize();
-				handleFishBite(i);
+				fishBites+= i->second.getSize();
+				handleFishBite(i->first);
+				fishList.erase(i++);
 			}
-		}
+			else
+			{
+				++i;
+			}
+		//}
 	}
 
 	//new fish are automatically added to keep up with desired spawn rate:
