@@ -59,7 +59,7 @@ void initialize()
 	//glut initialization stuff:
 	// set the window size, display mode, and create the window
 	glutInitWindowSize(winWidth, winHeight);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutCreateWindow("Hydrophobia");
 
 	// Init GLEW
