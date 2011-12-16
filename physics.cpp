@@ -18,15 +18,14 @@ extern bool explod;
 extern bool rain;
 //extern Node *world;
 
-float lastTime = 0;
-float deltaTime()
+int lastTime = 0;
+int deltaTime()
 {   
-	float dt = (float)(glutGet(GLUT_ELAPSED_TIME) - lastTime);
-	return dt;
+	return glutGet(GLUT_ELAPSED_TIME) - lastTime;
 }
 void updateTime()
 {
-	lastTime = (float)glutGet(GLUT_ELAPSED_TIME);
+	lastTime = glutGet(GLUT_ELAPSED_TIME);
 }
 //void setGravity(float acceleration)
 //{

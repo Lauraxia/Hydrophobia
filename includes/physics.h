@@ -1,2 +1,2 @@
-float deltaTime();
+int deltaTime();
 void updateTime();
