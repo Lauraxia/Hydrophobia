@@ -161,12 +161,12 @@ bool hit_testX(Fish fish, int fishAng)
 	int ang_rng = 10;//asin((double)(1/2)*fish.getSize()/fish.getPositionX());
 	if(fishAng > angle[1])
 	{
-		if(fishAng - ang_rng < angle[1])
+		if(fishAng - ang_rng < angle[1]- 187)
 			return true;
 	}
 	else
 	{
-		if(fishAng + ang_rng > angle[1])
+		if(fishAng + ang_rng > angle[1]- 187)
 			return true;
 	}
 	return false;
@@ -188,33 +188,22 @@ bool hit_testY(Fish fish, int fishAng)
 }
 void shoot()
 {
-	/*
-	for (int i=0; i<360; i++)
-	{
-		fishList.DeleteFish(i);
-	}
-	return;*/
-
 	float dist_test = 1000000;
-	printf("%f clicked\n", angle[1]);
 	
-	double maxRange = 30;//2*asin((double)(0.5)*(double)fishList.GetMaxFishSize()/(double)fishList.GetFishAttackThreshold());
+	double maxRange = 10;//2*asin((double)(0.5)*(double)fishList.GetMaxFishSize()/(double)fishList.GetFishAttackThreshold());
 
 	// Find degree range of potential collision
 	int xLeftRange = ceil(angle[1] - maxRange);//+ 180;
-
-	//int xRightRange= ceil(angle[1] + maxRange);//+ 180;
+	int xRightRange= ceil(angle[1] + maxRange);//+ 180;
 
 	//int yLeftRange = ceil(angle[0] - maxRange);
 	//int yRightRange= ceil(angle[0] - maxRange);
 
-
-
 	// Get max and min range
 	if(xLeftRange < 0)
-		xLeftRange += 360;
-	//if(xRightRange > 360)
-	//	xRightRange = xRightRange - 360;
+		xLeftRange = 360 + xLeftRange;
+	if(xRightRange > 360)
+		xRightRange = xRightRange - 360;
 
 	/*
 	if(yLeftRange < 0)
@@ -222,33 +211,25 @@ void shoot()
 	if(yRightRange > 360)
 		yRightRange = yRightRange - 360;*/
 	
-	bool isHit = false;
+
 	//Scan all bounds accross x
-	int closeFish = 0;
-	int end = (maxRange*2) + xLeftRange;
-	for(int i = xLeftRange; i<= end; i++)
+	for(int i = xLeftRange; i<=xRightRange ; i++)
 	{
-		if(fishList.GetFish(i%360) != NULL)
+		if(fishList.GetFish(i) != NULL)
 		{
 			Fish *temp_fish = fishList.GetFish(i);
 			if(hit_testX(*temp_fish, i))//&& hit_testY(*temp_fish, i))
 			{
-				isHit = true;
-				if (temp_fish->getPositionX() < dist_test)
-				{
-					//this fish is 6the closest one hit so far
+				//if(temp_fish->getPositionX() < dist_test)
 					dist_test = temp_fish->getPositionX();
-					closeFish = i;
-				}
 			}
 		}
 	}
 
-	if(dist_test != 1000000) //something was hit
+	if(dist_test != 1000000)
 	{
-		fishList.DeleteFish(closeFish);
+		fishList.DeleteFish(dist_test);
 		points += 10;
-		printf("%i shot\n", closeFish);
 	}
 }
 void playerEvents()
@@ -271,6 +252,7 @@ void display()
 	//clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
+	//glSetIdentityMatrix();
 	
 	//This update the camera position
 	//cam->setView();
@@ -299,6 +281,13 @@ void display()
 			m2->render();
 			glPopMatrix();
 
+			m1 = new mesh("assets\\raft3.obj",15);
+			glPushMatrix();
+			glTranslated(-400,50,0);
+			glEnable(GL_NORMALIZE);
+			m1->render(); 
+			glDisable(GL_NORMALIZE);
+			glPopMatrix();
 
 			m3 = new mesh("assets\\waterobj.obj",40);
 			glPushMatrix();
@@ -306,14 +295,7 @@ void display()
 			m3->render();
 			glPopMatrix();
 
-			m1 = new mesh("assets\\raft3.obj",15);
-			glPushMatrix();
-			glTranslated(0,50,0);
-		
-			glEnable(GL_NORMALIZE);
-			m1->render(); 
-			glDisable(GL_NORMALIZE);
-			glPopMatrix();
+			
 			
 
 			glEndList();
