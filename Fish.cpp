@@ -67,8 +67,12 @@ bool Fish::AdvancePosition(int milliseconds) //returns false if successful attac
 				animationFrame = 0;
 			}
 		}
-		else
+		else 
 		{
+			if (xPosition < jumpPoint)
+			{
+				isJumping = true; //as of next time, we're jumping
+			}
 			yPosition = 0; //TODO: really necessary every time? probably not...
 		}
 	}
@@ -102,7 +106,7 @@ void Fish::setupFishPaths()
 		for (int j=0; j<JUMP_BREADTH; j++)
 		{
 			double currAmplitude = (PATH_MIN_AMPLITUDE + (i/(double)NUM_POSSIBLE_PATHS * (PATH_MAX_AMPLITUDE - PATH_MIN_AMPLITUDE)));
-			double currAngularFrequency = 1; //TODO: add proper formula here
+			double currAngularFrequency = (2*3.14159265358979323846)/JUMP_BREADTH; //1; //TODO: add proper formula here
 			fishPaths[i][j] = -1 * currAmplitude * sin(currAngularFrequency*j);
 		}
 	}

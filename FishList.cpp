@@ -48,7 +48,7 @@ void FishList::spawnNewFishIfNeeded()
 				newFishLane = 0; //wrap around
 			}
 		}
-		Fish newFish(1, 1, 5, 200);
+		Fish newFish(1, 1, 5, 50);
 		fishList.insert(std::make_pair(newFishLane, newFish));
 		timeElapsedSinceSpawn = 0;
 
@@ -138,9 +138,9 @@ void FishList::DrawAllFish()
 	}
 	if (isFirstFish)
 	{
-		if (fishList.count(firstFish))
+		if (fishList.count(firstFish)) //important -- [] will create a null item after this fish is deleted, which causes problems...
 		{
-			printf("firstfish: '%d'\n", fishList[firstFish].getPositionX());
+			printf("firstfish: '%d %d'\n", fishList[firstFish].getPositionX(), fishList[firstFish].getPositionY());
 		}
 	}
 }
