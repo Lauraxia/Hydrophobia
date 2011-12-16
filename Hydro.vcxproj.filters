@@ -33,9 +33,6 @@
     <ClCompile Include="drawWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Fish.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -44,9 +41,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="includes\camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="includes\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>

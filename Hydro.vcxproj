@@ -70,7 +70,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="camera.cpp" />
     <ClCompile Include="control.cpp" />
     <ClCompile Include="drawWorld.cpp" />
     <ClCompile Include="Fish.cpp" />
@@ -81,7 +80,6 @@
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="includes\camera.h" />
     <ClInclude Include="includes\common.h" />
     <ClInclude Include="includes\control.h" />
     <ClInclude Include="includes\drawWorld.h" />
