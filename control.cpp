@@ -9,7 +9,6 @@
  *  key -- the key pressed
  *  x and y - mouse x and y coordinates at the time the function is called
  */
-extern Camera *cam;
 extern float rotAng[];
 extern float windVel[];
 

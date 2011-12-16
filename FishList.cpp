@@ -149,7 +149,7 @@ void FishList::DrawAllFish()
 	{
 		if (fishList.count(firstFish)) //important -- [] will create a null item after this fish is deleted, which causes problems...
 		{
-			printf("firstfish: '%d %d'\n", fishList[firstFish].getPositionX(), fishList[firstFish].getPositionY());
+			//printf("firstfish: '%d %d'\n", fishList[firstFish].getPositionX(), fishList[firstFish].getPositionY());
 		}
 	}
 }

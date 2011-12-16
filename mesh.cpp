@@ -50,8 +50,8 @@ mesh::mesh()
 mesh::mesh(const std::string& path, float scale)
 {
 	this->scale = scale;
-	loadasset(path);
-	loadtexture();
+	this->loadasset(path);
+	this->loadtexture();
 }
 mesh::~mesh()
 {
@@ -205,7 +205,7 @@ void mesh::apply_material(const struct aiMaterial *mtl)
 		color4_to_float4(&ambient, c);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, c);
 
-	set_float4(c, 0.0f, 0.0f, 0.0f, 1.0f);
+	set_float4(c, 0.0f, 0.0f, 0.0f, 0.0f);
 	if(AI_SUCCESS == aiGetMaterialColor(mtl, AI_MATKEY_COLOR_EMISSIVE, &emission))
 		color4_to_float4(&emission, c);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, c);
@@ -234,6 +234,8 @@ void mesh::apply_material(const struct aiMaterial *mtl)
 		glEnable(GL_CULL_FACE);
 	else
 		glDisable(GL_CULL_FACE);
+
+	
 }
 //-----------------------------------------------------------------------------
 bool mesh::loadasset(const std::string& path)

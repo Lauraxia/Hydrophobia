@@ -1,5 +1,4 @@
 #include "includes\common.h"
-#include "includes\camera.h"
 #include "includes\physics.h"
 #include "includes\control.h"
 #include "includes\mesh.h"
@@ -12,7 +11,6 @@ using namespace std;
 
 //Camera variables
 float camInitPos[3] = {0,-50,0};
-Camera *cam = new Camera(camInitPos);
 float rotAng[] = {0,0,0};
 
 
