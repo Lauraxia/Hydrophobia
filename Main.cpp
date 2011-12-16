@@ -310,8 +310,8 @@ void display()
 		//m2->render();
 		//glTranslated(400,-300,0);
 		glTranslated(400,-300,0);
-		//glCallList(scene_list); 
-		//glCallList(scene_list2);
+		glCallList(scene_list); 
+		glCallList(scene_list2);
 		
 	glPopMatrix();
 
