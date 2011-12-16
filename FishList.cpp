@@ -26,6 +26,10 @@ bool newFishIsTooClose(int newLane)
 
 //TODO needs to be rewritten to work with objects
 
+bool isFirstFish = false;
+int firstFish = 0;
+
+
 void FishList::spawnNewFishIfNeeded()
 {
 	if (timeElapsedSinceSpawn >= spawnRate)
@@ -44,9 +48,16 @@ void FishList::spawnNewFishIfNeeded()
 				newFishLane = 0; //wrap around
 			}
 		}
-		Fish newFish(1, 1, 5, 2000);
+		Fish newFish(1, 1, 5, 200);
 		fishList.insert(std::make_pair(newFishLane, newFish));
 		timeElapsedSinceSpawn = 0;
+
+		//for debugging path of a fish in console
+		if (!isFirstFish)
+		{
+			firstFish = newFishLane;
+			isFirstFish = true;
+		}
 	}
 }
 
@@ -69,7 +80,7 @@ int FishList::UpdateFishPositionBites(int milliseconds)
 
 	//new fish are automatically added to keep up with desired spawn rate:
 	timeElapsedSinceSpawn += milliseconds;
-//	spawnNewFishIfNeeded();
+	spawnNewFishIfNeeded();
 
 	return fishBites;
 }
@@ -78,12 +89,13 @@ void drawFish(Fish fish, int angle)
 {
 	//for now, just draw a cube...
 	glPushMatrix();
+		glRotatef(angle, 0,1,0);
 		double x = fish.getPositionX();
 		double y =  fish.getPositionY();
 		glTranslatef(fish.getPositionX(), fish.getPositionY(), 0);
-		glRotatef(angle, 0,1,0);
+
 		glColor3f(1,0,1);
-		glutSolidCube(fish.getSize()*100); //TODO: is this actually a good metric for deciding size, or scale?
+		glutSolidCube(fish.getSize()*0.5); //TODO: is this actually a good metric for deciding size, or scale?
 
 	glPopMatrix();
 }
@@ -98,6 +110,8 @@ void FishList::DrawAllFish()
 			drawFish(fishList[i], i);
 		}
 	}
+	if (isFirstFish)
+		printf("firstfish: '%d'\n", fishList[firstFish].getPositionX());
 }
 
 //called by main function, when testing for collisions with a potential fish target
