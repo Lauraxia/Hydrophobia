@@ -36,7 +36,9 @@ int winWidth = 800;
 int winHeight = 800;
 
 mesh *m1;
+mesh *m2;
 GLuint scene_list = 0;
+GLuint scene_list2 = 0;
 
 float lightPosition[] = {10,10,10};
 
@@ -217,7 +219,16 @@ void display()
 			m1->render(); //TODO: PUT THIS BACK
 			glEndList();
 		}
-
+		if(scene_list2 == 0) 
+		{
+			scene_list2 = glGenLists(1);
+			glNewList(scene_list2, GL_COMPILE);
+						// now begin at the root node of the imported data and traverse
+						// the scenegraph by multiplying subsequent local transforms
+						// together on GL's matrix stack.
+			m2->render(); //TODO: PUT THIS BACK
+			glEndList();
+		}
 		
 
 		fishList.DrawAllFish();
@@ -287,6 +298,7 @@ int main(int argc, char** argv)
 	glutIdleFunc(idle);
 
 	m1 = new mesh("assets\\Inflatable boat.3ds",0.5);
+	m2 = new mesh("assets\\Inflatable boat.3ds",0.9);//("assets\\skybox.obj",0.001);
 
 	//move cursor to center to avoid sudden jump
 	glutWarpPointer(winWidth/2, winHeight/2);
