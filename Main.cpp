@@ -4,11 +4,13 @@
 #include "includes\control.h"
 #include "includes\mesh.h"
 #include "includes\FishList.h"
-
+#include <string.h>
 #include <stdio.h>
+#include <sstream>
+using namespace std;
 
 //Camera variables
-float camInitPos[3] = {0,100,100};
+float camInitPos[3] = {0,0,0};
 Camera *cam = new Camera(camInitPos);
 float rotAng[] = {0,0,0};
 
@@ -94,6 +96,43 @@ void shoot()
 
 }
 
+void RenderText(double x, double y, const char *string)
+{
+	int i, len;
+
+	glUseProgram(0);
+
+	glLoadIdentity();
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glTranslatef(0.0f, 0.0f, -5.0f);
+	glRasterPos2f(x, y);
+
+	glDisable(GL_TEXTURE_2D);
+	for (i = 0, len = strlen(string); i < len; i++)
+	{
+		glutBitmapCharacter(GLUT_BITMAP_8_BY_13, (int)string[i]);
+	}
+	glEnable(GL_TEXTURE_2D);
+}
+
+void drawHUD()
+{
+	std::stringstream ss;
+	ss << health;
+	string healthString = "Health: " + ss.str();
+	RenderText(2.4,5.5, healthString.c_str());
+
+	ss.str( "" );
+	ss << ammo;
+	string ammoString = "Ammo: " + ss.str();
+	RenderText(2.4,5.3, ammoString.c_str());
+
+	ss.str( "" );
+	ss << points;
+	string pointsString = "Points: " + ss.str();
+	RenderText(2.4,5.1, pointsString.c_str());
+}
+
 void display()
 {
 	//clear the screen
@@ -106,7 +145,7 @@ void display()
 	glPushMatrix();
 	
 		
-		fishList.DrawAllFish();
+
 		
 
 			// if the display list has not been made yet, create a new one and
@@ -125,6 +164,9 @@ void display()
 		//This update the camera position
 		cam->setView();
 
+		fishList.DrawAllFish();
+
+		/*
 		//test to see where the heck we are
 		glPushMatrix();
 			glTranslatef(0, 0, 0);
@@ -132,7 +174,19 @@ void display()
 			glColor3f(1,0,1);
 			glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
 		glPopMatrix();
-
+		glPushMatrix();
+			glTranslatef(10, 0, 0);
+			//glRotatef(angle, 0,1,0);
+			glColor3f(1,0,0);
+			glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0,100, 100);
+			//glRotatef(angle, 0,1,0);
+			glColor3f(0,1,0);
+			glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
+		glPopMatrix();
+		*/
 
 		glPushMatrix();
 		//glCallList(scene_list); //TODO: PUT THIS BACK
@@ -144,6 +198,9 @@ void display()
 	glLightfv(GL_LIGHT0,GL_POSITION,lightPosition);
 
 	glPopMatrix();
+
+	drawHUD();
+
 	//swap buffers - rendering is done to the back buffer, bring it forward to display
 	glutSwapBuffers();
 

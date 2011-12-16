@@ -78,6 +78,8 @@ void drawFish(Fish fish, int angle)
 {
 	//for now, just draw a cube...
 	glPushMatrix();
+		double x = fish.getPositionX();
+		double y =  fish.getPositionY();
 		glTranslatef(fish.getPositionX(), fish.getPositionY(), 0);
 		glRotatef(angle, 0,1,0);
 		glColor3f(1,0,1);
