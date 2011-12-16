@@ -14,8 +14,16 @@ float camInitPos[3] = {0,0,0};
 Camera *cam = new Camera(camInitPos);
 float rotAng[] = {0,0,0};
 
+
+///////////////////////////////////////////
+//PLAYER VARIABLES
+//////////////////////////////////////////
 // shooting angle
 float angle[3];
+float fireRate = 1000;		//players firing rate in ms
+
+//control toggles
+extern bool fire;
 
 //game status variables:
 int health = 100; //-20 when bitten (TODO: vary based on fish size?!)
@@ -94,10 +102,7 @@ void initialize()
 	glLightfv(GL_LIGHT0, GL_SPECULAR, spec);
 
 }
-void shoot()
-{
 
-}
 
 void RenderText(double x, double y, const char *string)
 {
@@ -135,9 +140,27 @@ void drawHUD()
 	string pointsString = "Points: " + ss.str();
 	RenderText(2.4,5.1, pointsString.c_str());
 }
+void shoot()
+{
+		
+}
+void playerEvents()
+{
+	static int fireTime = 0;
+	if(fire)
+	{
+		fire = false;
+		if(glutGet(GLUT_ELAPSED_TIME) - fireTime >= fireRate)
+		{
+			shoot();
+			fireTime = glutGet(GLUT_ELAPSED_TIME);
+		}
+	}
+}
 
 void display()
 {
+	playerEvents();
 	//clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
@@ -167,25 +190,25 @@ void display()
 		fishList.DrawAllFish();
 
 		
-		//test to see where the heck we are
-		glPushMatrix();
-			glTranslatef(0, 0, 0);
-			//glRotatef(angle, 0,1,0);
-			glColor3f(1,0,1);
-			glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
-		glPopMatrix();
-		glPushMatrix();
-			glTranslatef(10, 0, 0);
-			//glRotatef(angle, 0,1,0);
-			glColor3f(1,0,0);
-			glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
-		glPopMatrix();
-		glPushMatrix();
-			glTranslatef(0,100, 100);
-			//glRotatef(angle, 0,1,0);
-			glColor3f(0,1,0);
-			glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
-		glPopMatrix();
+		////test to see where the heck we are
+		//glPushMatrix();
+		//	glTranslatef(0, 0, 0);
+		//	//glRotatef(angle, 0,1,0);
+		//	glColor3f(1,0,1);
+		//	glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
+		//glPopMatrix();
+		//glPushMatrix();
+		//	glTranslatef(10, 0, 0);
+		//	//glRotatef(angle, 0,1,0);
+		//	glColor3f(1,0,0);
+		//	glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
+		//glPopMatrix();
+		//glPushMatrix();
+		//	glTranslatef(0,100, 100);
+		//	//glRotatef(angle, 0,1,0);
+		//	glColor3f(0,1,0);
+		//	glutSolidCube(10); //TODO: is this actually a good metric for deciding size, or scale?
+		//glPopMatrix();
 		
 
 		glPushMatrix();
@@ -223,6 +246,7 @@ int main(int argc, char** argv)
 	//register glut callbacks for keyboard and display function
 	glutKeyboardFunc(kbd);
 	glutPassiveMotionFunc(passiveMouse);
+	glutMouseFunc(mouse);
 	glutDisplayFunc(display);
 	glutKeyboardUpFunc(keyUp);
 

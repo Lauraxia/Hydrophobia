@@ -15,13 +15,8 @@ extern float windVel[];
 
 extern float angle[3];
 
-extern bool frictionMode;
-bool rain = false;
-bool pauseParticles = false;
 bool reset = false;
-bool wind = false;
-bool explod = false;
-bool gainMomentum = false;
+bool fire = false;
 
 float invspeed = 20;
 int shadeMode = 1;
@@ -30,6 +25,7 @@ int shadeMode = 1;
 
 bool light = true;
 bool keys[256] = {false};
+bool mouseButton[256] = {false};
 bool specials[256] = {false};
 bool keyUsd[256] = {false};
 
@@ -54,7 +50,10 @@ void special(int key, int x, int y)
 	if(specials[key] == false)
 		specials[key] = true;
 }
-
+void mouse(int button, int state, int x, int y)
+{
+	mouseButton[button] = !mouseButton[button];
+}
 void passiveMouse(int x,int y)
 {
 	static int centerX = glutGet(GLUT_WINDOW_WIDTH) / 2;
@@ -105,6 +104,14 @@ void passiveMouse(int x,int y)
 
 void handleKeys()
 {
+	/////////////////////////////
+	//MOUE KEYS
+	///////////////////////////
+	if(mouseButton[GLUT_LEFT_BUTTON])
+	{
+		fire = true;
+	}
+
 	///////////////////////////////////
 	///KEBOARD KEYS
 	/////////////////////////////
@@ -113,13 +120,6 @@ void handleKeys()
 	if(keys['q'])
 	{
 		exit(0);
-	}
-
-	// f - toggles friction mode
-	if(keys['f'] && !keyUsd['f'])
-	{
-		frictionMode = !frictionMode;
-		keyUsd['f'] = true;
 	}
 	// l - toggles Lighting mode
 	if(keys['l'] && !keyUsd['l'])
@@ -131,109 +131,4 @@ void handleKeys()
 			glDisable(GL_LIGHTING);
 		keyUsd['l'] = true;
 	}
-	// spacebar - starts/stops simulation
-	if(keys[' '] && !keyUsd[' '])
-	{
-		pauseParticles = !pauseParticles;
-		keyUsd[' '] = true;
-	}
-	// r - resets simulation
-		if(keys['r'] && !keyUsd['r'] )
-	{
-		reset = !reset;
-		keyUsd['r'] = true;
-	}
-
-	// w toggles wind
-	if(keys['w'] && !keyUsd['w'] )
-	{
-		wind = !wind;
-		keyUsd['w'] = true;
-	}
-
-		//Toggles Explosion mode
-	if(keys['e'] && !keyUsd['e'] )
-	{
-		explod = !explod;
-		keyUsd['e'] = true;
-	}
-
-	//Toggle rain
-	if(keys['a'] && !keyUsd['a'] )
-	{
-		rain = !rain;
-		keyUsd['a'] = true;
-	}
-
-
-	// wind control
-	if(wind)
-	{
-		//Left
-		if(keys['4'] && !keyUsd['4'])
-		{
-			windVel[0] = 1;
-			windVel[1] = 0; 
-			windVel[2] = 0;
-			keyUsd['w'] = true;
-		}
-		//Right
-		if(keys['6'] && !keyUsd['6'])
-		{
-			windVel[0] = -1;
-			windVel[1] = 0; 
-			windVel[2] = 0;
-			keyUsd['w'] = true;
-		}
-		//Up
-		if(keys['8'] && !keyUsd['8'])
-		{
-			windVel[0] = 0;
-			windVel[1] = 0; 
-			windVel[2] = 1;
-			keyUsd['w'] = true;
-		}
-		//Down
-		if(keys['5'] && !keyUsd['5'])
-		{
-			windVel[0] = 0;
-			windVel[1] = 0; 
-			windVel[2] = -1;
-			keyUsd['w'] = true;
-		}
-	}
-
-
-	////////////////////////////////
-	//SPECIAL KEYS
-	////////////////////////////////
-	float direction[3] = {0,0,0};
-	if(specials[GLUT_KEY_RIGHT])
-	{
-		rotAng[1] = rotAng[1] + deltaTime()/10;
-		/*direction[0] = 1;
-		cam->move(direction,deltaTime()/invspeed);*/
-	}
-	if(specials[GLUT_KEY_LEFT])
-	{
-		rotAng[1] = rotAng[1] -deltaTime()/10;
-
-		/*direction[0] = -1;
-		cam->move(direction,deltaTime()/invspeed);*/
-	}
-	if(specials[GLUT_KEY_UP])
-	{
-		rotAng[0] = rotAng[0] + deltaTime()/10;
-		//rotAng[1] = deltaTime();
-		/*direction[2] = 1;
-		cam->move(direction,deltaTime()/invspeed);*/
-	}
-	if(specials[GLUT_KEY_DOWN])
-	{
-		rotAng[0] = rotAng[0] - deltaTime()/10;
-		//rotAng[1] = -deltaTime();
-		/*direction[2] = -1;
-		cam->move(direction,deltaTime()/invspeed);*/
-	}
-
 }
