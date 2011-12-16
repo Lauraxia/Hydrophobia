@@ -37,6 +37,7 @@ int winHeight = 800;
 
 mesh *m1;
 mesh *m2;
+mesh *m3;
 GLuint scene_list = 0;
 GLuint scene_list2 = 0;
 
@@ -111,6 +112,11 @@ void initialize()
 	//glEnable(GL_TEXTURE_2D);
 	//glDisable(GL_BLEND);
 	//glDisable(GL_LIGHTING);
+
+	//Alpha channel
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+
 }
 
 
@@ -268,6 +274,11 @@ void display()
 			m2->render();
 			glPopMatrix();
 
+			glPushMatrix();
+			glTranslated(0,-100,0);
+			m3->render();
+			glPopMatrix();
+
 			glEndList();
 		}
 		//if(scene_list2 == 0) 
@@ -311,7 +322,7 @@ void display()
 		//glTranslated(400,-300,0);
 		glTranslated(400,-300,0);
 		glCallList(scene_list); 
-		glCallList(scene_list2);
+		//glCallList(scene_list2);
 		
 	glPopMatrix();
 
@@ -351,9 +362,11 @@ int main(int argc, char** argv)
 	glutKeyboardUpFunc(keyUp);
 
 	glutIdleFunc(idle);
-
+	
 	m1 = new mesh("assets\\Inflatable boat.3ds",0.5);
 	m2 = new mesh("assets\\skybox.obj",40);
+	m3 = new mesh("assets\\waterobj.obj",40);
+	
 
 	//move cursor to center to avoid sudden jump
 	glutWarpPointer(winWidth/2, winHeight/2);
