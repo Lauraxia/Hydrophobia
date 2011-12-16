@@ -142,6 +142,28 @@ void RenderText(double x, double y, const char *string)
 	glEnable(GL_LIGHTING);
 }
 
+void RenderBigText(double x, double y, const char *string)
+{
+	glDisable(GL_LIGHTING);
+	int i, len;
+
+	glUseProgram(0);
+
+	glLoadIdentity();
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glTranslatef(0.0f, 0.0f, -5.0f);
+	glRasterPos2f(x, y);
+
+
+	glDisable(GL_TEXTURE_2D);
+	for (i = 0, len = strlen(string); i < len; i++)
+	{
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, (int)string[i]);
+	}
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_LIGHTING);
+}
+
 void drawHUD()
 {
 	std::stringstream ss;
@@ -254,6 +276,24 @@ void display()
 	playerEvents();
 	//clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	if (health <=0)
+	{
+		string x = "GAME OVER";
+		RenderBigText(-20,0, x.c_str());
+		std::stringstream ss;
+		ss << points;
+		string pString = "Final Score: " + ss.str();
+		RenderBigText(0,-20, pString.c_str());
+		//swap buffers - rendering is done to the back buffer, bring it forward to display
+		glutSwapBuffers();
+
+		//force a redisplay, to keep the animation running
+		glutPostRedisplay();
+		return;
+	}
+
+
 	glMatrixMode(GL_MODELVIEW);
 	//glSetIdentityMatrix();
 	
