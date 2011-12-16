@@ -16,6 +16,8 @@ public:
 	void FishList::DrawAllFish();
 	Fish * FishList::GetFish(int angle);
 	void FishList::DeleteFish(int angle);
+	int FishList::GetMaxFishSize();
+	int FishList::GetFishAttackThreshold();
 private:
 	void spawnNewFishIfNeeded();
 };

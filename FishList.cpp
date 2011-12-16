@@ -18,6 +18,15 @@ FishList::~FishList(void)
 {
 }
 
+int FishList::GetMaxFishSize()
+{
+	return Fish::MAX_FISH_SIZE;
+}
+
+int FishList::GetFishAttackThreshold()
+{
+	return Fish::SUCCESSFUL_ATTACK_THRESHOLD;
+}
 
 bool newFishIsTooClose(int newLane)
 {

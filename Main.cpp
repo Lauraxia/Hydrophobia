@@ -342,7 +342,7 @@ int main(int argc, char** argv)
 	glutIdleFunc(idle);
 
 	m1 = new mesh("assets\\Inflatable boat.3ds",0.5);
-	m2 = new mesh("assets\\skybox.obj",1);
+	m2 = new mesh("assets\\skybox.obj",5);
 
 	//move cursor to center to avoid sudden jump
 	glutWarpPointer(winWidth/2, winHeight/2);
