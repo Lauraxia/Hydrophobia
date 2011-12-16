@@ -213,7 +213,7 @@ void shoot()
 {
 	float dist_test = 1000000;
 	
-	double maxRange = 10;//2*asin((double)(0.5)*(double)fishList.GetMaxFishSize()/(double)fishList.GetFishAttackThreshold());
+	double maxRange = 50;//2*asin((double)(0.5)*(double)fishList.GetMaxFishSize()/(double)fishList.GetFishAttackThreshold());
 
 	// Find degree range of potential collision
 	int xLeftRange = ceil(angle[1] - maxRange);//+ 180;
@@ -223,10 +223,10 @@ void shoot()
 	//int yRightRange= ceil(angle[0] - maxRange);
 
 	// Get max and min range
-	if(xLeftRange < 0)
+	/*if(xLeftRange < 0)
 		xLeftRange = 360 + xLeftRange;
 	if(xRightRange > 360)
-		xRightRange = xRightRange - 360;
+		xRightRange = xRightRange - 360;*/
 
 	/*
 	if(yLeftRange < 0)
@@ -240,20 +240,23 @@ void shoot()
 	{
 		if(fishList.GetFish(i) != NULL)
 		{
-			Fish *temp_fish = fishList.GetFish(i);
-			if(hit_testX(*temp_fish, i))//&& hit_testY(*temp_fish, i))
-			{
-				//if(temp_fish->getPositionX() < dist_test)
-					dist_test = temp_fish->getPositionX();
-			}
+
+			fishList.DeleteFish(i);
+			points += 10;
+			//Fish *temp_fish = fishList.GetFish(i);
+			//if(hit_testX(*temp_fish, i))//&& hit_testY(*temp_fish, i))
+			//{
+			//	//if(temp_fish->getPositionX() < dist_test)
+			//		dist_test = temp_fish->getPositionX();
+			//}
 		}
 	}
 
-	if(dist_test != 1000000)
+	/*if(dist_test != 1000000)
 	{
 		fishList.DeleteFish(dist_test);
 		points += 10;
-	}
+	}*/
 }
 void playerEvents()
 {
@@ -261,7 +264,7 @@ void playerEvents()
 	if(fire)
 	{
 		fire = false;
-		if(glutGet(GLUT_ELAPSED_TIME) - fireTime >= fireRate && ammo > 0)
+		if(ammo > 0)
 		{
 			shoot();
 			ammo--;
